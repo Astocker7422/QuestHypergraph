@@ -1,0 +1,94 @@
+Noun
+{
+	Static
+	{
+		Object
+		{
+			Tool {readable(false)}
+			{
+				sword
+				hammer
+				axe
+			}
+
+			Ingredient {craftable(false), usable(false), repairable(false), readable(false)}
+			{
+				flower
+				goblinEar
+				dragonHorn			
+			}
+
+			Relic {craftable(false), usable(false), repairable(false), readable(false)}
+			{
+				jewel			
+			}
+			
+			Book {craftable(false), usable(false), repairable(false)}
+			{
+				historyBook
+			}
+
+			Key {craftalbe(false), repairable(false), readable(false)}
+			{
+				dungeonKey			
+			}
+		}
+
+		Place {steal, collect, craft, give, use, repair, receive, read
+		{
+			fort
+			cave
+			dungeon
+			castle
+			village
+		}
+	}
+
+	Living
+	{
+		Ally {capturable(false), killable(false)}
+		{
+			villager
+			hostage
+			king
+		}
+
+		Enemy {protectable(false), talkTo(false), escortable(false)}
+		{
+			goblin
+			boss
+			skeleton
+			giant
+			dragon	
+		}
+	}
+}
+
+Verb
+{
+
+	Static
+	{
+		goTo
+		steal
+		collect
+		craft
+		give
+		use
+		repair
+		receive
+		read
+	}
+
+	Living
+	{
+		goTo
+		protect
+		kill
+		talkTo
+		follow
+		capture
+		listen
+		escort
+	}
+}
