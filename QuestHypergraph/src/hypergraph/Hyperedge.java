@@ -26,11 +26,11 @@ public class Hyperedge<A>
         annot = theAnnot;
     }
 
-    public Hyperedge(ArrayList<Integer> genSubset, int nextInt,
-            Annotation annotation)
-    {
-        // TODO Auto-generated constructor stub
-    }
+//    public Hyperedge(ArrayList<Integer> genSubset, int nextInt,
+//            Annotation annotation)
+//    {
+//        // TODO Auto-generated constructor stub
+//    }
 
     @Override
     public boolean equals(Object o)
@@ -61,7 +61,8 @@ public class Hyperedge<A>
         edgeS += "{";
         for(Integer currNode: sourceNodes)
         {
-            edgeS += currNode + ", ";
+            if(sourceNodes.indexOf(currNode) != sourceNodes.size() - 1) edgeS += currNode + ", ";
+            else edgeS += currNode;
         }
         edgeS += "} -> ";
         edgeS += targetNode;
