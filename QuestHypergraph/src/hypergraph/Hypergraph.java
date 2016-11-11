@@ -1,4 +1,5 @@
 package hypergraph;
+
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -18,9 +19,16 @@ public class Hypergraph<T, A>
     public int size() { return vertices.size(); }
  
     //trys to add a vertex to the graph and returns whether it was successful
+    //makes the index of the node its id
     public boolean addNode(T data)
     {
         return vertices.add(new Hypernode<T, A>(data, vertices.size()));
+    }
+    
+    //allows to assign id (specifically for Hypergraph made from topologicalSort)
+    public boolean addNode(T data, int id)
+    {
+        return vertices.add(new Hypernode<T, A>(data, id));
     }
     
     //adds new edge and returns whether it was successful
@@ -39,6 +47,13 @@ public class Hypergraph<T, A>
         vertices.get(newEdge.targetNode).inEdges.add(newEdge);
 
         return true;
+    }
+    
+    public void addEdge(ArrayList<Integer> fromList, int to)
+    {
+        Annotation edgeAnnotation = new Annotation();
+        Hyperedge newEdge = new Hyperedge(fromList, to, edgeAnnotation);
+        addEdge(newEdge);
     }
     
     //checks and returns if each vertex is incident to the edge
@@ -100,15 +115,23 @@ public class Hypergraph<T, A>
         
         for(Hypernode<T, A> currNode: vertices)
         {
-            graphS += "Vertex " + currNode.id + ": ";
-            graphS += "(data: " + currNode.data + ", ";
+            if(vertices.indexOf(currNode) != 0) graphS += ", [Vertex " + vertices.indexOf(currNode) + "]: ";
+            else graphS += "[Vertex " + vertices.indexOf(currNode) + "]: ";
+            graphS += "(data: " + currNode.data + " / ";
             graphS += "out edges: ";
-            for(Hyperedge<A>currEdge: currNode.outEdges)
+            if(currNode.outEdges.isEmpty()) graphS += "none ";
+            for(Hyperedge<A> currEdge: currNode.outEdges)
             {
-                graphS += currEdge.toString() + ", ";
+                int lastIndex = currNode.outEdges.size() - 1;
+                if((currNode.outEdges.indexOf(currEdge)) != (lastIndex))
+                {
+                    graphS += currEdge.toString() + ", ";
+                }
+                else graphS += currEdge.toString();
             }
-            graphS += "in edges: ";
-            for(Hyperedge<A>currEdge: currNode.inEdges)
+            graphS += " / in edges: ";
+            if(currNode.inEdges.isEmpty()) graphS += "none ";
+            for(Hyperedge<A> currEdge: currNode.inEdges)
             {
                 graphS += currEdge.toString();
             }
