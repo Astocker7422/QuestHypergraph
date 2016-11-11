@@ -72,6 +72,7 @@ public class ConstraintParser
     {
         parseStaticVerbs();
         parseLivingVerbs();
+        parsePredecessorLists();
         parseTools();
         parseIngredients();
         parseRelics();
@@ -120,6 +121,42 @@ public class ConstraintParser
                 LivingVerb_List.add(sVerb);
                 Verb_List.add(sVerb);
                 if(Options.DEBUG) System.out.println("    " + sVerb.getName());
+            }
+        }
+    }
+    
+    public void parsePredecessorLists()
+    {
+        Element root = doc.getDocumentElement();
+        NodeList PredecessorList_NodeList = doc.getElementsByTagName("PredecessorList");
+        for (int temp = 0; temp < PredecessorList_NodeList.getLength(); temp++)
+        {
+            Node PredecessorListNode = PredecessorList_NodeList.item(temp);
+                
+            if (PredecessorListNode.getNodeType() == Node.ELEMENT_NODE) 
+            {
+                Element PredecessorListElement = (Element) PredecessorListNode;
+                String theVerbName = PredecessorListElement.getElementsByTagName("Verb").item(0).getTextContent();
+                Verb theVerb = null;
+                for(Verb currVerb: Verb_List)
+                {
+                    if(currVerb.getName().equalsIgnoreCase(theVerbName))
+                    {
+                        theVerb = currVerb;
+                    }
+                }
+                ArrayList<Verb> PredecessorVerbs = new ArrayList<Verb>();
+                for(int VerbNodeNumber = 0; VerbNodeNumber < PredecessorListElement.getElementsByTagName("PredecessorVerb").getLength(); VerbNodeNumber++)
+                {
+                    for(Verb currVerb: Verb_List)
+                    {
+                        if(PredecessorListElement.getElementsByTagName("PredecessorVerb").item(VerbNodeNumber).getTextContent().equals(currVerb.getName()))
+                        {
+                            PredecessorVerbs.add(currVerb);
+                        }
+                    }
+                }
+                theVerb.setPredecessorVerbs(PredecessorVerbs);
             }
         }
     }
