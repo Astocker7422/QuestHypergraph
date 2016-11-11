@@ -12,7 +12,8 @@ public class Action
     {
         _verb = theVerb;
         _noun = theNoun;
-        requiresSequencing = true;
+        if(theVerb.getPredecessorVerbs().isEmpty()) requiresSequencing = false;
+        else requiresSequencing = true;
     }
     
     public Verb getVerb()
