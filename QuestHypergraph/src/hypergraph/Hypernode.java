@@ -39,6 +39,16 @@ public class Hypernode<T, A>
         return outEdges.add(edge);
     }
     
+    public Hyperedge getInEdge(int index)
+    {
+        return inEdges.get(index);
+    }
+    
+    public Hyperedge getOutEdge(int index)
+    {
+        return outEdges.get(index);
+    }
+    
     public PebblerHypernode<A> createPebbledNode() 
     {
         return new PebblerHypernode<A>(id);
