@@ -6,7 +6,7 @@ import java.util.Stack;
 //
 // Implements a basic directional graph (with no node information)
 //
-public class DiGraph
+public class DiGraphInt
 {
     //
     // To implement Tajan's Strongly Connected Components (and cycles in the graph)
@@ -51,7 +51,7 @@ public class DiGraph
     protected ArrayList<Integer> vertices;
     protected ArrayList<ArrayList<Integer>> sccs; // Strongly Connected Components
 
-    public DiGraph()
+    public DiGraphInt()
     {
         edgeMap = new Hashtable<Integer, ArrayList<Integer>>();
         transposeEdgeMap = new Hashtable<Integer, ArrayList<Integer>>();
@@ -63,7 +63,7 @@ public class DiGraph
     //
     // Make a shallow copy of this graph (all vertices and edges)
     //
-    public DiGraph(DiGraph thatGraph)
+    public DiGraphInt(DiGraphInt thatGraph)
     {
         edgeMap = new Hashtable<Integer, ArrayList<Integer>>();
         transposeEdgeMap = new Hashtable<Integer, ArrayList<Integer>>();

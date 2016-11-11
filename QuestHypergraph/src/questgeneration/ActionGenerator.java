@@ -92,4 +92,21 @@ public class ActionGenerator
         }
         return newActionSet;
     }
+    
+    public ArrayList<Action> generateAllActions()
+    {
+        ArrayList<Action> newActionSet = new ArrayList<Action>();
+        for(Noun currNoun: Noun_List)
+        {
+            for(Verb currVerb: Verb_List)
+            {
+                if (currVerb.isCompatible(currNoun))
+                {
+                    Action newAction = new Action(currVerb, currNoun);
+                    newActionSet.add(newAction);
+                }
+            }
+        }
+        return newActionSet;
+    }
 }

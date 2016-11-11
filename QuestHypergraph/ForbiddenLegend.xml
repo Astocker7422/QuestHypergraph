@@ -1,0 +1,164 @@
+<SynthesisFile>
+<Verb_List>
+	<StaticVerb_List>
+		<StaticVerb>
+			<name>go to</name>
+		</StaticVerb>
+		<StaticVerb>
+			<name>collect</name>
+		</StaticVerb>
+		<StaticVerb>
+			<name>place</name>
+		</StaticVerb>
+		<StaticVerb>
+			<name>read</name>
+		</StaticVerb>
+	</StaticVerb_List>
+	<LivingVerb_List>
+		<LivingVerb>
+			<name>find</name>
+		</LivingVerb>
+		<LivingVerb>
+			<name>kill</name>
+		</LivingVerb>
+	</LivingVerb_List>
+</Verb_List>
+<PredecessorList_List>
+	<PredecessorList>
+		<Verb>collect</Verb>
+		<PredecessorVerb_List>
+		<PredecessorVerb>go to</PredecessorVerb>
+		</PredecessorVerb_List>
+	</PredecessorList>
+	<PredecessorList>
+		<Verb>place</Verb>
+		<PredecessorVerb_List>
+		<PredecessorVerb>collect</PredecessorVerb>
+		</PredecessorVerb_List>
+	</PredecessorList>
+	<PredecessorList>
+		<Verb>read</Verb>
+		<PredecessorVerb_List>
+		<PredecessorVerb>go to</PredecessorVerb>
+		<PredecessorVerb>collect</PredecessorVerb>
+		</PredecessorVerb_List>
+	</PredecessorList>
+</PredecessorList_List>
+<Noun_List>
+	<StaticNoun_List>
+		<Object_List>
+			<Relic_List>
+				<Relic>
+  					<type>Mikrul's fragment</type>
+  					<negated_verb_list>
+						<Verb>read</Verb>
+  					</negated_verb_list>					
+				</Relic>
+				<Relic>
+  					<type>Jyric's fragment</type>
+  					<negated_verb_list>
+						<Verb>read</Verb>
+  					</negated_verb_list>					
+				</Relic>
+				<Relic>
+  					<type>Sigdis's fragment</type>
+  					<negated_verb_list>
+						<Verb>read</Verb>
+  					</negated_verb_list>					
+				</Relic>
+				<Relic>
+  					<type>Gauldur Amulet</type>
+  					<negated_verb_list>
+						<Verb>read</Verb>
+						<Verb>place</Verb>
+  					</negated_verb_list>					
+				</Relic>
+			</Relic_List>
+			<Book_List>
+				<Book>
+  					<type>Daynas Valen's journal</type>
+  					<negated_verb_list>
+						<Verb>place</Verb>
+  					</negated_verb_list>					
+				</Book>
+				<Book>
+  					<type>Daynas Valen's notes</type>
+  					<negated_verb_list>
+						<Verb>place</Verb>
+  					</negated_verb_list>				
+				</Book>
+			</Book_List>
+		</Object_List>
+		<Place_List>
+			<Place>
+  				<type>Folgunthur</type>
+  				<negated_verb_list>
+  					<Verb>collect</Verb>
+  					<Verb>place</Verb>
+					<Verb>read</Verb>
+  				</negated_verb_list>					
+			</Place>
+			<Place>
+  				<type>Saarthal</type>
+  				<negated_verb_list>
+  					<Verb>collect</Verb>
+  					<Verb>place</Verb>
+					<Verb>read</Verb>
+  				</negated_verb_list>					
+			</Place>
+			<Place>
+  				<type>Geirmund's Hall</type>
+  				<negated_verb_list>
+  					<Verb>collect</Verb>
+  					<Verb>place</Verb>
+					<Verb>read</Verb>
+  				</negated_verb_list>					
+			</Place>
+			<Place>
+  				<type>Reachwater Rock</type>
+  				<negated_verb_list>
+  					<Verb>collect</Verb>
+  					<Verb>place</Verb>
+					<Verb>read</Verb>
+  				</negated_verb_list>					
+			</Place>
+		</Place_List>
+	</StaticNoun_List>
+	<LivingNoun_List>
+		<Ally_List>
+		</Ally_List>
+		<Enemy_List>
+			<Enemy>
+  				<type>Mikrul</type>
+  				<negated_verb_list>
+  				</negated_verb_list>					
+			</Enemy>
+			<Enemy>
+  				<type>Jyric</type>
+  				<negated_verb_list>
+  				</negated_verb_list>					
+			</Enemy>
+			<Enemy>
+  				<type>Sigdis</type>
+  				<negated_verb_list>
+  				</negated_verb_list>					
+			</Enemy>
+			<Enemy>
+  				<type>ghost Mikrul</type>
+  				<negated_verb_list>
+  				</negated_verb_list>					
+			</Enemy>
+			<Enemy>
+  				<type>ghost Jyric</type>
+  				<negated_verb_list>
+  				</negated_verb_list>					
+			</Enemy>
+			<Enemy>
+  				<type>ghost Sigdis</type>
+  				<negated_verb_list>
+  				</negated_verb_list>					
+			</Enemy>
+		</Enemy_List>
+	</LivingNoun_List>
+</Noun_List>
+</SynthesisFile>
