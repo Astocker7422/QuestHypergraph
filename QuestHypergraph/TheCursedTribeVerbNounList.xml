@@ -1,0 +1,121 @@
+<SynthesisFile>
+<Verb_List>
+	<StaticVerb_List>
+		<StaticVerb>
+			<name>go to</name>
+		</StaticVerb>
+		<StaticVerb>
+			<name>collect</name>
+		</StaticVerb>
+		<StaticVerb>
+			<name>give</name>
+		</StaticVerb>
+		<StaticVerb>
+			<name>place</name>
+		</StaticVerb>
+	</StaticVerb_List>
+	<LivingVerb_List>
+		<LivingVerb>
+			<name>kill</name>
+		</LivingVerb>
+		<LivingVerb>
+			<name>talk to</name>
+		</LivingVerb>
+		<LivingVerb>
+			<name>follow</name>
+		</LivingVerb>
+		<LivingVerb>
+			<name>escort</name>
+		</LivingVerb>
+	</LivingVerb_List>
+</Verb_List>
+<PredecessorList_List>
+	<PredecessorList>
+		<Verb>give</Verb>
+		<PredecessorVerb_List>
+		<PredecessorVerb>collect</PredecessorVerb>
+		</PredecessorVerb_List>
+	</PredecessorList>
+</PredecessorList_List>
+<Noun_List>
+	<StaticNoun_List>
+		<Object_List>
+			<Ingredient_List>
+				<Ingredient>
+  					<type>daedra heart</type>
+  					<negated_verb_list>
+  						<Verb>go to</Verb>
+  						<Verb>place</Verb>
+  					</negated_verb_list>					
+				</Ingredient>
+				<Ingredient>
+  					<type>troll fat</type>
+  					<negated_verb_list>
+  						<Verb>go to</Verb>
+  						<Verb>place</Verb>
+  					</negated_verb_list>					
+				</Ingredient>
+			</Ingredient_List>
+			<Relic_List>
+				<Relic>
+  					<type>Shagrol's warhammer</type>
+  					<negated_verb_list>
+  						<Verb>go to</Verb>
+  						<Verb>give</Verb>
+  					</negated_verb_list>					
+				</Relic>
+				<Relic>
+  					<type>Volendrung</type>
+  					<negated_verb_list>
+  						<Verb>go to</Verb>
+  						<Verb>place</Verb>
+  						<Verb>give</Verb>
+  					</negated_verb_list>				
+				</Relic>
+			</Relic_List>
+		</Object_List>
+		<Place_List>
+			<Place>
+  				<type>Largashbur</type>
+  				<negated_verb_list>
+  					<Verb>collect</Verb>
+  					<Verb>give</Verb>
+  					<Verb>place</Verb>
+  				</negated_verb_list>					
+			</Place>
+			<Place>
+  				<type>Fallowstone Cave</type>
+  				<negated_verb_list>
+  					<Verb>collect</Verb>
+  					<Verb>give</Verb>
+  					<Verb>place</Verb>
+  				</negated_verb_list>					
+			</Place>
+		</Place_List>
+	</StaticNoun_List>
+	<LivingNoun_List>
+		<Ally_List>
+			<Ally>
+  				<type>Atub</type>
+  				<negated_verb_list>
+					<Verb>kill</Verb>
+  				</negated_verb_list>					
+			</Ally>
+			<Ally>
+  				<type>Yamarz</type>
+  				<negated_verb_list>
+  				</negated_verb_list>					
+			</Ally>
+		</Ally_List>
+		<Enemy_List>
+			<Enemy>
+  				<type>giant</type>
+  				<negated_verb_list>
+					<Verb>talk to</Verb>
+					<Verb>escort</Verb>
+  				</negated_verb_list>					
+			</Enemy>
+		</Enemy_List>
+	</LivingNoun_List>
+</Noun_List>
+</SynthesisFile>
