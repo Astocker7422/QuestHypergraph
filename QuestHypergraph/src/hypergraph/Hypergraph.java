@@ -73,6 +73,18 @@ public class Hypergraph<T, A>
         return vertices.get(id);
     }
     
+    public boolean isDisconnected()
+    {
+        if(size() == 1) return false;
+        if(vertices.get(0).outEdges.isEmpty()) return true;
+        if(vertices.get(vertices.size() - 1).inEdges.isEmpty()) return true;
+        for(int index = 1; index < (vertices.size() - 1); index++)
+        {
+            if(vertices.get(index).inEdges.isEmpty() || vertices.get(index).outEdges.isEmpty()) return true;
+        }
+        return false;
+    }
+    
     //return integer-based representation of hypergraph
     public PebblerHypergraph<T, A> getPebbledHypergraph() throws Exception
     {
