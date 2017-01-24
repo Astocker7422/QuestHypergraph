@@ -104,9 +104,20 @@ public class ActionGenerator
                 {
                     Action newAction = new Action(currVerb, currNoun);
                     newActionSet.add(newAction);
+                    Action_List.add(newAction);
                 }
             }
         }
         return newActionSet;
+    }
+    
+    public Action getAction(String verb, String noun)
+    {
+        for(Action act: Action_List)
+        {
+            if(act.getVerb().getName().equalsIgnoreCase(verb) && act.getNoun().getType().equalsIgnoreCase(noun)) return act;
+        }
+        System.out.println("Action not generated.");
+        return null;
     }
 }
