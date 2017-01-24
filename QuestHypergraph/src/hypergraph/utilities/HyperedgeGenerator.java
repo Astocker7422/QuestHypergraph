@@ -40,30 +40,22 @@ public class HyperedgeGenerator<T, A>
         return newEdge;
     }
     
-    public void genBoundedHyperedges(int currNode, int sourceBound)
+    public void genBoundedHyperedges(int currNode, String sourceNumberOrder)
     {
-        Random gen = new Random();
+        if(currNode == 0) return;
         
-        int bound = gen.nextInt(sourceBound) + 1;
+        int sourceBound = Character.getNumericValue(sourceNumberOrder.charAt(currNode - 1));
         
-        if((currNode - bound) < 0 && currNode == 0) return;
+        if((currNode - sourceBound) < 0) return;
         
         int[] sources;
         
-        if((currNode - bound) < 0 && currNode != 0)
+        sources = new int[sourceBound];
+        int index = 0;
+        for(int count = 1; count <= sourceBound; count++)
         {
-            sources = new int[1];
-            sources[0] = currNode - 1;
-        }
-        else
-        {
-            sources = new int[bound];
-            int index = 0;
-            for(int count = 1; count <= bound; count++)
-            {
-                sources[index] = currNode - count;
-                index++;
-            }
+            sources[index] = currNode - count;
+            index++;
         }
         
         Annotation edgeAnnotation = new Annotation();
@@ -71,6 +63,41 @@ public class HyperedgeGenerator<T, A>
         Hyperedge boundedEdge = new Hyperedge(sources, currNode, edgeAnnotation);
         _HG.addEdge(boundedEdge);
         
-        genBoundedHyperedges(currNode - 1, sourceBound);
+        if(currNode == 1) return;
+        genBoundedHyperedges(currNode - 1, sourceNumberOrder);
     }
+    
+//    public void genBoundedHyperedges(int currNode, int sourceBound)
+//    {
+//        Random gen = new Random();
+//        
+//        int bound = gen.nextInt(sourceBound) + 1;
+//        
+//        if((currNode - bound) < 0 && currNode == 0) return;
+//        
+//        int[] sources;
+//        
+//        if((currNode - bound) < 0 && currNode != 0)
+//        {
+//            sources = new int[1];
+//            sources[0] = currNode - 1;
+//        }
+//        else
+//        {
+//            sources = new int[bound];
+//            int index = 0;
+//            for(int count = 1; count <= bound; count++)
+//            {
+//                sources[index] = currNode - count;
+//                index++;
+//            }
+//        }
+//        
+//        Annotation edgeAnnotation = new Annotation();
+//        
+//        Hyperedge boundedEdge = new Hyperedge(sources, currNode, edgeAnnotation);
+//        _HG.addEdge(boundedEdge);
+//        
+//        genBoundedHyperedges(currNode - 1, sourceBound);
+//    }
 }

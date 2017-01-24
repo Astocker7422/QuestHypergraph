@@ -7,6 +7,7 @@ import frontend.ConstraintParser;
 import hypergraph.Annotation;
 import hypergraph.Hypergraph;
 import hypergraph.utilities.HyperedgeGenerator;
+import questgeneration.constraints.*;
 import questgeneration.Action;
 import questgeneration.ActionGenerator;
 import questgeneration.QuestHypergraphGenerator;
@@ -103,11 +104,9 @@ public class Tester
 //        System.out.println("Width: " + DG.GetWidth());
         
         //
-        //TEST DIGRAPH FROM HYPERGRAPH
-        //
-        Hypergraph HG = new Hypergraph();
-        
         //sample action HG
+        //
+//        Hypergraph HG = new Hypergraph();
 //        for(int count = 0; count < 6; count++)
 //        {
 //            HG.addNode(count);
@@ -128,88 +127,325 @@ public class Tester
 //        HG.addEdge(fromList2, 3);
 //        //(1,2,5 - 4)
 //        HG.addEdge(fromList2, 4);
+
+        //
+        //Hypergraph to DiGraph
+        //
+//        DiGraph DG = new DiGraph(HG);
+//        System.out.println("Digraph from Hypergraph: " + DG);
+//        System.out.println("Length: " + DG.GetLength());
+//        System.out.println("Width: " + DG.GetWidth());
         
-          //small HG
-//        for(int count = 0; count < 6; count++)
-//        {
-//            HG.addNode(count);
-//        }
-//        ArrayList<Integer> fromList = new ArrayList<Integer>();
-//        fromList.add(0);
-//        fromList.add(1);
-//        HG.addEdge(fromList, 2);
-//        HG.addEdge(fromList, 3);
-//        ArrayList<Integer> fromList2 = new ArrayList<Integer>();
-//        fromList2.add(2);
-//        fromList2.add(3);
-//        HG.addEdge(fromList2, 4);
-//        HG.addEdge(fromList2, 5);
+        //
+        //TEST CREATE SKYRIM QUEST
+        //
+//        ConstraintParser parser = new ConstraintParser("ForbiddenLegend.xml");
+//        parser.parse();
+//        
+//        DiGraph DG = new DiGraph();
+//        
+//        ActionGenerator actionGen = new ActionGenerator(parser);
+//        actionGen.generateAllActions();
+//        
+//        DG.addNode(actionGen.getAction("go to", "Fulgunthur"));
+//        DG.addNode(actionGen.getAction("go to", "Daynas Valen's Journal"));
+//        DG.addNode(actionGen.getAction("read", "Daynas Valen's Journal"));
+//        DG.addNode(actionGen.getAction("go to", "Daynas Valen's Notes"));
+//        DG.addNode(actionGen.getAction("read", "Daynas Valen's Notes"));
+//        DG.addNode(actionGen.getAction("kill", "Mikrul"));
+//        DG.addNode(actionGen.getAction("collect", "Mikrul's Fragment"));
+//        DG.addNode(actionGen.getAction("go to", "Saarthal"));
+//        DG.addNode(actionGen.getAction("kill", "Jyric"));
+//        DG.addNode(actionGen.getAction("collect", "Jyric's Fragment"));
+//        DG.addNode(actionGen.getAction("go to", "Geirmund's Hall"));
+//        DG.addNode(actionGen.getAction("kill", "Sigdis"));
+//        DG.addNode(actionGen.getAction("collect", "Sigdis's Fragment"));
+//        DG.addNode(actionGen.getAction("go to", "Reachwater Rock"));
+//        DG.addNode(actionGen.getAction("place", "Mikrul's Fragment"));
+//        DG.addNode(actionGen.getAction("place", "Jyric's Fragment"));
+//        DG.addNode(actionGen.getAction("place", "Sigdis's Fragment"));
+//        DG.addNode(actionGen.getAction("kill", "Ghost Mikrul"));
+//        DG.addNode(actionGen.getAction("kill", "Ghost Sigdis"));
+//        DG.addNode(actionGen.getAction("kill", "Ghost Jyric"));
+//        DG.addNode(actionGen.getAction("collect", "Gauldur Amulet"));
+//        
+//        DG.addEdge(0, 1);
+//        DG.addEdge(1, 2);
+//        DG.addEdge(2, 3);
+//        DG.addEdge(3, 4);
+//        DG.addEdge(4, 5);
+//        DG.addEdge(4, 7);
+//        DG.addEdge(4, 10);
+//        DG.addEdge(5, 6);
+//        DG.addEdge(7, 8);
+//        DG.addEdge(8, 9);
+//        DG.addEdge(10, 11);
+//        DG.addEdge(11, 12);
+//        DG.addEdge(6, 13);
+//        DG.addEdge(9, 13);
+//        DG.addEdge(12, 13);
+//        DG.addEdge(13, 14);
+//        DG.addEdge(13, 15);
+//        DG.addEdge(13, 16);
+//        DG.addEdge(14, 17);
+//        DG.addEdge(15, 17);
+//        DG.addEdge(16, 17);
+//        DG.addEdge(17, 18);
+//        DG.addEdge(18, 19);
+//        DG.addEdge(19, 20);
+//        
+//        System.out.println("Original DiGraph: " + DG);
+//        System.out.println("Length: " + DG.GetLength());
+//        System.out.println("Width: " + DG.GetWidth());
+            
+        //
+        // TEST LINEARIZATIONS AND HYPERGRAPHS 1 through n nodes, NO EDGES
+        //
+        int n = 10;
         
-        //large HG (one source, one sink)
-        for(int count = 0; count < 9; count++)
+        DiGraph DG = new DiGraph();
+        
+        for(int count = 0; count < n; count++)
         {
-            HG.addNode(count);
+            DG.addNode(count);
         }
-        ArrayList<Integer> fromList0 = new ArrayList<Integer>();
-        fromList0.add(0);
-        HG.addEdge(fromList0, 1); //0-1
-        HG.addEdge(fromList0, 2); //0-2
-        ArrayList<Integer> fromList1 = new ArrayList<Integer>();
-        fromList1.add(1);
-        HG.addEdge(fromList1, 3); //1-3
-        ArrayList<Integer> fromList1and2 = new ArrayList<Integer>();
-        fromList1and2.add(1);
-        fromList1and2.add(2);
-        HG.addEdge(fromList1and2, 4); //1,2-4
-        ArrayList<Integer> fromList2 = new ArrayList<Integer>();
-        fromList2.add(2);
-        HG.addEdge(fromList2, 5); //2-5
-        ArrayList<Integer> fromList3and4 = new ArrayList<Integer>();
-        fromList3and4.add(3);
-        fromList3and4.add(4);
-        HG.addEdge(fromList3and4, 6); //3,4-6
-        ArrayList<Integer> fromList4and5 = new ArrayList<Integer>();
-        fromList4and5.add(4);
-        fromList4and5.add(5);
-        HG.addEdge(fromList4and5, 7); //4,5-7
-        ArrayList<Integer> fromList7 = new ArrayList<Integer>();
-        fromList7.add(7);
-        HG.addEdge(fromList7, 8); //7-8
-        
-        System.out.println(HG);
-        
-        DiGraph HGDigraph = new DiGraph(HG);
-        
-        System.out.println(HGDigraph);
-        System.out.println("Length: " + HGDigraph.GetLength());
-        System.out.println("Width: " + HGDigraph.GetWidth());
         
         //
-        //TEST GEN ALL HYPERGRAPHS FROM ALL TOPOLOGICAL SORTS
+        // TEST LINEARIZATIONS AND HYPERGRAPHS RANDOM EDGES
         //
-//        ArrayList<Linearization<Action>> allTopologicalSorts = DG.allTopologicalSort();
+        
+        // 2 nodes
+//        int n = 2;
 //        
-//        int sortIndex = 1;
-//        for(Linearization<Action> currSort: allTopologicalSorts)
+//        DiGraph DG = new DiGraph();
+//        
+//        for(int count = 0; count < n; count++)
 //        {
-//            System.out.println(sortIndex + ". " + currSort);
-//            System.out.println();
-//            sortIndex++;
+//            DG.addNode(count);
+//        }
+//
+//        DG.addEdge(0, 1);
+        
+        // 3 nodes
+//        int n = 3;
+//        
+//        DiGraph DG = new DiGraph();
+//        
+//        for(int count = 0; count < n; count++)
+//        {
+//            DG.addNode(count);
+//        }
+//
+//        DG.addEdge(0, 1);
+//        DG.addEdge(1, 2);
+        
+        //4 nodes
+//        int n = 4;
+//        
+//        DiGraph DG = new DiGraph();
+//        
+//        for(int count = 0; count < n; count++)
+//        {
+//            DG.addNode(count);
+//        }
+//
+//        DG.addEdge(0, 1);
+//        DG.addEdge(0, 2);
+//        DG.addEdge(1, 3);
+//        DG.addEdge(2, 3);
+        
+        //5 nodes
+//        int n = 5;
+//        
+//        DiGraph DG = new DiGraph();
+//        
+//        for(int count = 0; count < n; count++)
+//        {
+//            DG.addNode(count);
 //        }
 //        
+//        DG.addEdge(0, 1);
+//        DG.addEdge(0, 2);
+//        DG.addEdge(1, 3);
+//        DG.addEdge(2, 3);
+//        DG.addEdge(3, 4);
+        
+        //6 nodes
+//        int n = 6;
+//        
+//        DiGraph DG = new DiGraph();
+//        
+//        for(int count = 0; count < n; count++)
+//        {
+//            DG.addNode(count);
+//        }
+//
+//        DG.addEdge(0, 1);
+//        DG.addEdge(0, 2);
+//        DG.addEdge(1, 3);
+//        DG.addEdge(1, 4);
+//        DG.addEdge(2, 3);
+//        DG.addEdge(2, 4);
+//        DG.addEdge(3, 5);
+//        DG.addEdge(4, 5);
+        
+        //7 nodes
+//        int n = 7;
+//        
+//        DiGraph DG = new DiGraph();
+//        
+//        for(int count = 0; count < n; count++)
+//        {
+//            DG.addNode(count);
+//        }
+//        
+//        DG.addEdge(0, 1);
+//        DG.addEdge(0, 2);
+//        DG.addEdge(0, 3);
+//        DG.addEdge(1, 4);
+//        DG.addEdge(2, 4);
+//        DG.addEdge(3, 5);
+//        DG.addEdge(4, 6);
+//        DG.addEdge(5, 6);
+        
+        //8 nodes
+//        int n = 8;
+//        
+//        DiGraph DG = new DiGraph();
+//        
+//        for(int count = 0; count < n; count++)
+//        {
+//            DG.addNode(count);
+//        }
+//        
+//        DG.addEdge(0, 1);
+//        DG.addEdge(0, 2);
+//        DG.addEdge(1, 3);
+//        DG.addEdge(1, 4);
+//        DG.addEdge(2, 5);
+//        DG.addEdge(3, 6);
+//        DG.addEdge(4, 6);
+//        DG.addEdge(5, 6);
+//        DG.addEdge(6, 7);
+        
+        //9 nodes
+//        int n = 9;
+//        
+//        DiGraph DG = new DiGraph();
+//        
+//        for(int count = 0; count < n; count++)
+//        {
+//            DG.addNode(count);
+//        }
+//        
+//        DG.addEdge(0, 1);
+//        DG.addEdge(0, 2);
+//        DG.addEdge(1, 3);
+//        DG.addEdge(2, 4);
+//        DG.addEdge(2, 5);
+//        DG.addEdge(3, 6);
+//        DG.addEdge(4, 7);
+//        DG.addEdge(5, 7);
+//        DG.addEdge(6, 8);
+//        DG.addEdge(7, 8);
+        
+        //10 nodes
+//        int n = 10;
+//        
+//        DiGraph DG = new DiGraph();
+//        
+//        for(int count = 0; count < n; count++)
+//        {
+//            DG.addNode(count);
+//        }
+//        
+//        DG.addEdge(0, 1);
+//        DG.addEdge(0, 2);
+//        DG.addEdge(0, 3);
+//        DG.addEdge(1, 4);
+//        DG.addEdge(2, 4);
+//        DG.addEdge(3, 5);
+//        DG.addEdge(4, 6);
+//        DG.addEdge(5, 7);
+//        DG.addEdge(6, 8);
+//        DG.addEdge(7, 8);
+//        DG.addEdge(8, 9);
+        
+        //11 nodes
+//        int n = 11;
+//        
+//        DiGraph DG = new DiGraph();
+//        
+//        for(int count = 0; count < n; count++)
+//        {
+//            DG.addNode(count);
+//        }
+//        
+//        DG.addEdge(0, 1);
+//        DG.addEdge(0, 2);
+//        DG.addEdge(0, 3);
+//        DG.addEdge(1, 4);
+//        DG.addEdge(1, 5);
+//        DG.addEdge(2, 6);
+//        DG.addEdge(3, 6);
+//        DG.addEdge(4, 7);
+//        DG.addEdge(5, 7);
+//        DG.addEdge(6, 9);
+//        DG.addEdge(7, 8);
+//        DG.addEdge(8, 10);
+//        DG.addEdge(9, 10);
+        
+        //
+        //TEST GEN ALL LINEARIZATIONS FROM ALL TOPOLOGICAL SORTS
+        //
+        System.out.println("Generating all linearizations...");
+        ArrayList<Linearization<Action>> allTopologicalSorts = DG.allTopologicalSort();
+        System.out.println("DONE generating all linearizations.");
+        
+        System.out.println();
+        System.out.println("Filtering linearizations...");
+        LinearizationFilter<Action> LFilter = new LinearizationFilter<Action>(allTopologicalSorts, n);
+        LFilter.filter();
+        System.out.println("DONE filtering linearizations.");
+        allTopologicalSorts = LFilter._linearizations;
+        
+        System.out.println();
+        System.out.println("Printing all linearizations...");
+        int sortIndex = 1;
+        for(Linearization<Action> currSort: allTopologicalSorts)
+        {
+            System.out.println(sortIndex + ". " + currSort);
+            System.out.println();
+            sortIndex++;
+        }
+        System.out.println("DONE printing all linearizations.");
+        
+        //
+        //TEST GEN ALL HYPERGRAPHS FROM ALL LINEARIZATIONS
+        //
+//        System.out.println("Generating all hypergraphs...");
 //        HypergraphGenerator hypergraphGen = new HypergraphGenerator();
 //        ArrayList<Hypergraph> topologicalHypergraphList = hypergraphGen.genAllHypergraphs(allTopologicalSorts);
+//        System.out.println("DONE generating all hypergraphs.");
 //        
+//        System.out.println();
+//        System.out.println("Printing all hypergraphs...");
 //        int graphIndex = 1;
 //        for(Hypergraph currGraph: topologicalHypergraphList)
 //        {
-//            System.out.println(graphIndex + ". " + currGraph);
-//            System.out.println(new DiGraph(currGraph));
-//            System.out.println(new DiGraph(currGraph).GetLength());
-//            System.out.println(new DiGraph(currGraph).GetWidth());
+//            System.out.println(graphIndex + ". Hypergraph: " + currGraph);
+//            DiGraph HGDG = new DiGraph(currGraph);
+//            System.out.println("DiGraph: " + HGDG);
+//            System.out.println("Length: " + HGDG.GetLength());
+//            System.out.println("Width: " + HGDG.GetWidth());
 //            System.out.println();
 //            graphIndex++;
 //        }
+//        System.out.println("DONE printing all hypergraphs.");
+//        
+//        System.out.println();
+//        System.out.println("Linearizations: " + allTopologicalSorts.size());
+//        System.out.println("Hypergraphs: " + topologicalHypergraphList.size());
         
         //
         //TEST GEN ALL TOPOLOGICAL SORTS

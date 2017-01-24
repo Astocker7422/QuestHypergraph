@@ -19,7 +19,7 @@ public class HypergraphGenerator<T, A>
         node_list = nodes;
     }
     
-    public Hypergraph<T, A> genHypergraph(Linearization nodes, int sourceBound)
+    public Hypergraph<T, A> genHypergraph(Linearization nodes, String sourceNumberOrder, int sourceBound)
     {
         Hypergraph<T, A> HG = new Hypergraph<T, A>();
         
@@ -33,23 +33,67 @@ public class HypergraphGenerator<T, A>
         
         int lastNode = HG.vertices.size() - 1;
         HyperedgeGenerator edgeGen = new HyperedgeGenerator(HG);
-        edgeGen.genBoundedHyperedges(lastNode, sourceBound);
+        edgeGen.genBoundedHyperedges(lastNode, sourceNumberOrder);
         
         return HG;
     }
     
-    public ArrayList<Hypergraph<T, A>> genAllHypergraphs(ArrayList<Linearization> nodeListCollection)
+//    public ArrayList<Hypergraph<T, A>> genRandomHypergraphs(ArrayList<Linearization> nodeListCollection)
+//    {
+//        ArrayList<Hypergraph<T, A>> hypergraphCollection = new ArrayList<Hypergraph<T, A>>();
+//        
+//        //
+//        for(Linearization currList: nodeListCollection)
+//        {
+//            //changeable parameter (currently varying number of max source nodes to each Hyperedge)
+//            for(int sourceBound = 1; sourceBound <= utilities.Constants.source_bound; sourceBound++)
+//            {
+//                hypergraphCollection.add(genRandomHypergraph(currList, sourceBound));
+//            }
+//        }
+//        
+//        return hypergraphCollection;
+//    }
+    
+    //generates all hypergraphs possible from ONE linearization
+    public ArrayList<Hypergraph<T, A>> genAllHypergraphs(Linearization nodeList, int sourceBound) throws Exception
     {
         ArrayList<Hypergraph<T, A>> hypergraphCollection = new ArrayList<Hypergraph<T, A>>();
         
-        //
+        ArrayList<String> sourceNumberOrders = Utilities.construct(sourceBound, nodeList.getNodes().size() - 1);
+        
+        int count = 0;
+        for(String hGraphStr: sourceNumberOrders)
+        {
+            Hypergraph<T, A> newHG = genHypergraph(nodeList, hGraphStr, sourceBound);
+            if(newHG.isDisconnected()) continue;
+            
+            //print hypergraph for test
+            //if(count % 10 == 0)
+            hypergraphCollection.add(newHG);
+            if(Utilities.DEBUG)
+            {
+//                System.out.println(count);
+//                System.out.println(newHG);
+//                DiGraph HG = new DiGraph(newHG);
+//                System.out.println("Length: " + HG.GetLength());
+//                System.out.println("Width: " + HG.GetWidth());
+//                count++;
+            }
+        }
+        
+        return hypergraphCollection;
+    }
+    
+    //generates all hypergraphs possible from MANY linearizations
+    public ArrayList<Hypergraph<T, A>> genAllHypergraphs(ArrayList<Linearization> nodeListCollection) throws Exception
+    {
+        ArrayList<Hypergraph<T, A>> hypergraphCollection = new ArrayList<Hypergraph<T, A>>();
+        
         for(Linearization currList: nodeListCollection)
         {
-            //changeable parameter (currently varying number of source nodes to each Hyperedge)
-            for(int sourceBound = 1; sourceBound <= utilities.Constants.source_bound; sourceBound++)
-            {
-                hypergraphCollection.add(genHypergraph(currList, sourceBound));
-            }
+            //changeable parameter (currently varying number of max source nodes to each Hyperedge (source_bound))
+            hypergraphCollection.addAll(genAllHypergraphs(currList, utilities.Constants.source_bound));
         }
         
         return hypergraphCollection;
