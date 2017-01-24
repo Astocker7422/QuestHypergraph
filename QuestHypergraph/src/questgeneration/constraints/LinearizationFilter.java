@@ -37,6 +37,7 @@ public class LinearizationFilter<T> implements Filter
                 String otherOrderString = otherOrder.toASCIIString();
                 int distance = 0;
                 // CHOOSE WHICH DISTANCE FUNCTION TO USE
+                // DISTANCE CODE IN PROGRESS
                 _function FUNC_TYPE = _function.KENDALL_TAU;
                 switch(FUNC_TYPE)
                 {
