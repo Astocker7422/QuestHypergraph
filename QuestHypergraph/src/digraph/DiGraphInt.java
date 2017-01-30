@@ -1,7 +1,8 @@
-package utilities;
+package digraph;
 import java.util.ArrayList;
 import java.util.*;
 import java.util.Stack;
+import utilities.*;
 
 //
 // Implements a basic directional graph (with no node information)
