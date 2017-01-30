@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 import hypergraph.Hypergraph;
 import pebbler.PebblerHyperedge;
-import utilities.DiGraph;
+import digraph.DiGraphInt;
 import utilities.Utilities;
 
 //
@@ -32,8 +32,8 @@ public class Path<T, A>
 	public ArrayList<PebblerHyperedge<A>> edges;
 	public ArrayList<PebblerHyperedge<A>> getEdges() { return edges; }
 
-	public DiGraph graph;
-	public DiGraph getGraph(){ return graph; }
+	public DiGraphInt graph;
+	public DiGraphInt getGraph(){ return graph; }
 
 	// For final determination of interestingness
 	// public int interestingPercentage = 0;
@@ -48,7 +48,7 @@ public class Path<T, A>
 		edges = new ArrayList<PebblerHyperedge<A>>();
 		suppressedStartNodes = new ArrayList<Integer>();
 
-		graph = new DiGraph();
+		graph = new DiGraphInt();
 	}
 
 	public Path(PebblerHyperedge<A> edge)
@@ -62,7 +62,7 @@ public class Path<T, A>
 
 		suppressedStartNodes = new ArrayList<Integer>();
 
-		graph = new DiGraph();
+		graph = new DiGraphInt();
 		graph.AddHyperEdge(startNodes, goalNode);
 	}
 
@@ -75,7 +75,7 @@ public class Path<T, A>
 		edges = new ArrayList<PebblerHyperedge<A>>(thatPath.edges);
 		suppressedStartNodes = new ArrayList<Integer>(thatPath.suppressedStartNodes);
 
-		graph = new DiGraph(thatPath.graph);
+		graph = new DiGraphInt(thatPath.graph);
 	}
 
 	public int getNumDeductiveSteps() { return edges.size(); }
