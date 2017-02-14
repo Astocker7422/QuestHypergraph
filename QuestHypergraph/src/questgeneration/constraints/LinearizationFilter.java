@@ -1,21 +1,26 @@
 package questgeneration.constraints;
 
 import java.util.ArrayList;
-import java.util.Hashtable;
-import java.util.ArrayList;
 import digraph.Linearization;
 import utilities.Utilities;
 
 public class LinearizationFilter<T> implements Filter
 {
-    int upper_bound;
+    double upper_bound;
     public ArrayList<Linearization<T>> _linearizations;
-    public enum _function {EDIT_DISTANCE, HAMMING, KENDALL_TAU}
+    public enum _function {EDIT_DISTANCE, HAMMING, KENDALL_TAU};
+    private final double[] upperBounds = {0, Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY,
+                                            1000, 500, 350, 200, 150,
+                                            100, 90, 80, 70, 60,
+                                            55, 50, 45, 40, 35,
+                                            30, 1, 20, 18, 16,      //21 nodes is second from left in this row
+                                            14, 12, 10, 8, 6, 4};
     
     public LinearizationFilter(ArrayList<Linearization<T>> linearizationList, int numNodes)
     {
         _linearizations = linearizationList;
-        upper_bound = numNodes / 2;
+        //upper_bound = linearizationList.size() / 2;
+        upper_bound = upperBounds[numNodes];
     }
     
     @Override
@@ -35,10 +40,9 @@ public class LinearizationFilter<T> implements Filter
             for(Linearization otherOrder: _linearizations)
             {
                 String otherOrderString = otherOrder.toASCIIString();
-                int distance = 0;
+                double distance = 0;
                 // CHOOSE WHICH DISTANCE FUNCTION TO USE
-                // DISTANCE CODE IN PROGRESS
-                _function FUNC_TYPE = _function.KENDALL_TAU;
+                _function FUNC_TYPE = _function.HAMMING;
                 switch(FUNC_TYPE)
                 {
                     case EDIT_DISTANCE:
@@ -48,10 +52,10 @@ public class LinearizationFilter<T> implements Filter
                         distance = Utilities.hamming(currOrderString, otherOrderString);
                     break;
                     case KENDALL_TAU:
-                        distance = Utilities.kendallTau(currOrder.toArray(), otherOrder.toArray()) / (n * (n - 1) / 2);
+                        distance = Utilities.kendallTau(currOrder.toArray(), otherOrder.toArray()) / (double) (n * (n - 1) / 2);
                     break;
                 }
-                currOrderDistances.add(distance);
+                currOrderDistances.add((int)distance);
             }
             distanceMatrix.add(currOrderDistances);
         }
@@ -66,10 +70,10 @@ public class LinearizationFilter<T> implements Filter
             Sums.add(sum);
         }
         
-        if(Utilities.DEBUG)
-        {
-            if(count == 0) System.out.println("Sums: " + Sums);
-        }
+//        if(Utilities.DEBUG)
+//        {
+//            if(count == 0) System.out.println("Sums: " + Sums);
+//        }
         
         while(_linearizations.size() > upper_bound)
         {
@@ -89,8 +93,8 @@ public class LinearizationFilter<T> implements Filter
             }
             
             _linearizations.remove(minimumIndex);
-            System.out.println("Linearizations: " + _linearizations.size());
-            System.out.println("Sums: " + Sums);
+//            System.out.println("Linearizations: " + _linearizations.size());
+//            System.out.println("Sums: " + Sums);
         }
     }
 }
