@@ -1,6 +1,6 @@
 package questgeneration.constraints;
 
-public interface Constraint
+public abstract class Constraint
 {
     
 }

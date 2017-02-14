@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 import questgeneration.Action;
 
-public class PredecessorConstraint implements Constraint
+public class PredecessorConstraint extends Constraint
 {
     private ArrayList<Action> _actions;
     private Action _theAction;

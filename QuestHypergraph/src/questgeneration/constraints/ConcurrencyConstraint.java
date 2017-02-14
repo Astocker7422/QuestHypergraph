@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 import questgeneration.Action;
 
-public class ConcurrencyConstraint implements Constraint
+public class ConcurrencyConstraint extends Constraint
 {
     private ArrayList<Action> _actions;
     private Action _theAction;
