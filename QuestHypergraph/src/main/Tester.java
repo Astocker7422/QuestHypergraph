@@ -139,76 +139,78 @@ public class Tester
         //
         //TEST CREATE SKYRIM QUEST
         //
-//        ConstraintParser parser = new ConstraintParser("ForbiddenLegend.xml");
-//        parser.parse();
-//        
-//        DiGraph DG = new DiGraph();
-//        
-//        ActionGenerator actionGen = new ActionGenerator(parser);
-//        actionGen.generateAllActions();
-//        
-//        DG.addNode(actionGen.getAction("go to", "Fulgunthur"));
-//        DG.addNode(actionGen.getAction("go to", "Daynas Valen's Journal"));
-//        DG.addNode(actionGen.getAction("read", "Daynas Valen's Journal"));
-//        DG.addNode(actionGen.getAction("go to", "Daynas Valen's Notes"));
-//        DG.addNode(actionGen.getAction("read", "Daynas Valen's Notes"));
-//        DG.addNode(actionGen.getAction("kill", "Mikrul"));
-//        DG.addNode(actionGen.getAction("collect", "Mikrul's Fragment"));
-//        DG.addNode(actionGen.getAction("go to", "Saarthal"));
-//        DG.addNode(actionGen.getAction("kill", "Jyric"));
-//        DG.addNode(actionGen.getAction("collect", "Jyric's Fragment"));
-//        DG.addNode(actionGen.getAction("go to", "Geirmund's Hall"));
-//        DG.addNode(actionGen.getAction("kill", "Sigdis"));
-//        DG.addNode(actionGen.getAction("collect", "Sigdis's Fragment"));
-//        DG.addNode(actionGen.getAction("go to", "Reachwater Rock"));
-//        DG.addNode(actionGen.getAction("place", "Mikrul's Fragment"));
-//        DG.addNode(actionGen.getAction("place", "Jyric's Fragment"));
-//        DG.addNode(actionGen.getAction("place", "Sigdis's Fragment"));
-//        DG.addNode(actionGen.getAction("kill", "Ghost Mikrul"));
-//        DG.addNode(actionGen.getAction("kill", "Ghost Sigdis"));
-//        DG.addNode(actionGen.getAction("kill", "Ghost Jyric"));
-//        DG.addNode(actionGen.getAction("collect", "Gauldur Amulet"));
-//        
-//        DG.addEdge(0, 1);
-//        DG.addEdge(1, 2);
-//        DG.addEdge(2, 3);
-//        DG.addEdge(3, 4);
-//        DG.addEdge(4, 5);
-//        DG.addEdge(4, 7);
-//        DG.addEdge(4, 10);
-//        DG.addEdge(5, 6);
-//        DG.addEdge(7, 8);
-//        DG.addEdge(8, 9);
-//        DG.addEdge(10, 11);
-//        DG.addEdge(11, 12);
-//        DG.addEdge(6, 13);
-//        DG.addEdge(9, 13);
-//        DG.addEdge(12, 13);
-//        DG.addEdge(13, 14);
-//        DG.addEdge(13, 15);
-//        DG.addEdge(13, 16);
-//        DG.addEdge(14, 17);
-//        DG.addEdge(15, 17);
-//        DG.addEdge(16, 17);
-//        DG.addEdge(17, 18);
-//        DG.addEdge(18, 19);
-//        DG.addEdge(19, 20);
-//        
-//        System.out.println("Original DiGraph: " + DG);
-//        System.out.println("Length: " + DG.GetLength());
-//        System.out.println("Width: " + DG.GetWidth());
-            
-        //
-        // TEST LINEARIZATIONS AND HYPERGRAPHS 1 through n nodes, NO EDGES
-        //
-        int n = 10;
+        ConstraintParser parser = new ConstraintParser("ForbiddenLegend.xml");
+        parser.parse();
         
         DiGraph DG = new DiGraph();
         
-        for(int count = 0; count < n; count++)
-        {
-            DG.addNode(count);
-        }
+        ActionGenerator actionGen = new ActionGenerator(parser);
+        actionGen.generateAllActions();
+        
+        DG.addNode(actionGen.getAction("go to", "Fulgunthur"));
+        DG.addNode(actionGen.getAction("go to", "Daynas Valen's Journal"));
+        DG.addNode(actionGen.getAction("read", "Daynas Valen's Journal"));
+        DG.addNode(actionGen.getAction("go to", "Daynas Valen's Notes"));
+        DG.addNode(actionGen.getAction("read", "Daynas Valen's Notes"));
+        DG.addNode(actionGen.getAction("kill", "Mikrul"));
+        DG.addNode(actionGen.getAction("collect", "Mikrul's Fragment"));
+        DG.addNode(actionGen.getAction("go to", "Saarthal"));
+        DG.addNode(actionGen.getAction("kill", "Jyric"));
+        DG.addNode(actionGen.getAction("collect", "Jyric's Fragment"));
+        DG.addNode(actionGen.getAction("go to", "Geirmund's Hall"));
+        DG.addNode(actionGen.getAction("kill", "Sigdis"));
+        DG.addNode(actionGen.getAction("collect", "Sigdis's Fragment"));
+        DG.addNode(actionGen.getAction("go to", "Reachwater Rock"));
+        DG.addNode(actionGen.getAction("place", "Mikrul's Fragment"));
+        DG.addNode(actionGen.getAction("place", "Jyric's Fragment"));
+        DG.addNode(actionGen.getAction("place", "Sigdis's Fragment"));
+        DG.addNode(actionGen.getAction("kill", "Ghost Mikrul"));
+        DG.addNode(actionGen.getAction("kill", "Ghost Sigdis"));
+        DG.addNode(actionGen.getAction("kill", "Ghost Jyric"));
+        DG.addNode(actionGen.getAction("collect", "Gauldur Amulet"));
+        
+        int n = DG.getVertices().size();
+        
+        DG.addEdge(0, 1);
+        DG.addEdge(1, 2);
+        DG.addEdge(2, 3);
+        DG.addEdge(3, 4);
+        DG.addEdge(4, 5);
+        DG.addEdge(4, 7);
+        DG.addEdge(4, 10);
+        DG.addEdge(5, 6);
+        DG.addEdge(7, 8);
+        DG.addEdge(8, 9);
+        DG.addEdge(10, 11);
+        DG.addEdge(11, 12);
+        DG.addEdge(6, 13);
+        DG.addEdge(9, 13);
+        DG.addEdge(12, 13);
+        DG.addEdge(13, 14);
+        DG.addEdge(13, 15);
+        DG.addEdge(13, 16);
+        DG.addEdge(14, 17);
+        DG.addEdge(15, 17);
+        DG.addEdge(16, 17);
+        DG.addEdge(17, 18);
+        DG.addEdge(18, 19);
+        DG.addEdge(19, 20);
+        
+        System.out.println("Original DiGraph: " + DG);
+        System.out.println("Length: " + DG.GetLength());
+        System.out.println("Width: " + DG.GetWidth());
+//            
+        //
+        // TEST LINEARIZATIONS AND HYPERGRAPHS 1 through n nodes, NO EDGES
+        //
+//        int n = 7;
+//        
+//        DiGraph DG = new DiGraph();
+//        
+//        for(int count = 0; count < n; count++)
+//        {
+//            DG.addNode(count);
+//        }
         
         //
         // TEST LINEARIZATIONS AND HYPERGRAPHS RANDOM EDGES
@@ -423,29 +425,29 @@ public class Tester
         //
         //TEST GEN ALL HYPERGRAPHS FROM ALL LINEARIZATIONS
         //
-//        System.out.println("Generating all hypergraphs...");
-//        HypergraphGenerator hypergraphGen = new HypergraphGenerator();
-//        ArrayList<Hypergraph> topologicalHypergraphList = hypergraphGen.genAllHypergraphs(allTopologicalSorts);
-//        System.out.println("DONE generating all hypergraphs.");
-//        
-//        System.out.println();
-//        System.out.println("Printing all hypergraphs...");
-//        int graphIndex = 1;
-//        for(Hypergraph currGraph: topologicalHypergraphList)
-//        {
-//            System.out.println(graphIndex + ". Hypergraph: " + currGraph);
-//            DiGraph HGDG = new DiGraph(currGraph);
-//            System.out.println("DiGraph: " + HGDG);
-//            System.out.println("Length: " + HGDG.GetLength());
-//            System.out.println("Width: " + HGDG.GetWidth());
-//            System.out.println();
-//            graphIndex++;
-//        }
-//        System.out.println("DONE printing all hypergraphs.");
-//        
-//        System.out.println();
-//        System.out.println("Linearizations: " + allTopologicalSorts.size());
-//        System.out.println("Hypergraphs: " + topologicalHypergraphList.size());
+        System.out.println("Generating all hypergraphs...");
+        HypergraphGenerator hypergraphGen = new HypergraphGenerator();
+        ArrayList<Hypergraph> topologicalHypergraphList = hypergraphGen.genFilteredHypergraphs(allTopologicalSorts);
+        System.out.println("DONE generating all hypergraphs.");
+        
+        System.out.println();
+        System.out.println("Printing all hypergraphs...");
+        int graphIndex = 1;
+        for(Hypergraph currGraph: topologicalHypergraphList)
+        {
+            System.out.println(graphIndex + ". Hypergraph: " + currGraph);
+            DiGraph HGDG = new DiGraph(currGraph);
+            System.out.println("DiGraph: " + HGDG);
+            System.out.println("Length: " + HGDG.GetLength());
+            System.out.println("Width: " + HGDG.GetWidth());
+            System.out.println();
+            graphIndex++;
+        }
+        System.out.println("DONE printing all hypergraphs.");
+        
+        System.out.println();
+        System.out.println("Linearizations: " + allTopologicalSorts.size());
+        System.out.println("Hypergraphs: " + topologicalHypergraphList.size());
         
         //
         //TEST GEN ALL TOPOLOGICAL SORTS
