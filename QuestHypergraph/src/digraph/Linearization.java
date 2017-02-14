@@ -33,6 +33,32 @@ public class Linearization<T>
         return lastNode;
     }
     
+    public String toASCIIString()
+    {
+        String linearization = new String();
+        
+        for(Node currNode: nodes)
+        {
+            Integer charInt = currNode.getId() + 33;
+            char ASCIIChar = (char) Character.toLowerCase(charInt);
+            linearization += ASCIIChar;
+        }
+        
+        return linearization;
+    }
+    
+    public int[] toArray()
+    {
+        int[] ary = new int[nodes.size()];
+        int index = 0;
+        for(Node<T> currNode: nodes)
+        {
+            ary[index] = currNode.getId();
+            index++;
+        }
+        return ary;
+    }
+    
     @Override
     public String toString()
     {
