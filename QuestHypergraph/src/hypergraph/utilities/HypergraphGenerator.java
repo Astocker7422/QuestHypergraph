@@ -112,10 +112,10 @@ public class HypergraphGenerator<T, A>
         System.out.println("Done generating source node bound orders");
         
         System.out.println("Filtering hypergraphs...");
-        HypergraphFilter<T> LFilter = new HypergraphFilter<T>(sourceNumberOrders, numNodes);
-        LFilter.filter();
+        HypergraphFilter<T> HFilter = new HypergraphFilter<T>(sourceNumberOrders, numNodes);
+        HFilter.filter();
         System.out.println("DONE filtering hypergraphs.");
-        sourceNumberOrders = LFilter._hypergraphs;
+        sourceNumberOrders = HFilter._hypergraphs;
         
         for(Linearization currList: nodeListCollection)
         {
