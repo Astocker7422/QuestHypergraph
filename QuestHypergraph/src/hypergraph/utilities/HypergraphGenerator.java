@@ -3,6 +3,7 @@ package hypergraph.utilities;
 import hypergraph.*;
 import digraph.*;
 import java.util.ArrayList;
+import questgeneration.constraints.HypergraphFilter;
 import utilities.*;
 
 public class HypergraphGenerator<T, A>
@@ -56,11 +57,11 @@ public class HypergraphGenerator<T, A>
 //    }
     
     //generates all hypergraphs possible from ONE linearization
-    public ArrayList<Hypergraph<T, A>> genAllHypergraphs(Linearization nodeList, int sourceBound) throws Exception
+    public ArrayList<Hypergraph<T, A>> genAllHypergraphs(Linearization nodeList, int sourceBound, ArrayList<String> sourceNumberOrders) throws Exception
     {
         ArrayList<Hypergraph<T, A>> hypergraphCollection = new ArrayList<Hypergraph<T, A>>();
         
-        ArrayList<String> sourceNumberOrders = Utilities.construct(sourceBound, nodeList.getNodes().size() - 1);
+        //
         
         int count = 0;
         for(String hGraphStr: sourceNumberOrders)
@@ -68,18 +69,16 @@ public class HypergraphGenerator<T, A>
             Hypergraph<T, A> newHG = genHypergraph(nodeList, hGraphStr, sourceBound);
             if(newHG.isDisconnected()) continue;
             
-            //print hypergraph for test
-            //if(count % 10 == 0)
             hypergraphCollection.add(newHG);
-            if(Utilities.DEBUG)
-            {
-//                System.out.println(count);
-//                System.out.println(newHG);
+//            if(count % 100 == 0)
+//            {
+//                System.out.println(count + ": " + newHG);
 //                DiGraph HG = new DiGraph(newHG);
 //                System.out.println("Length: " + HG.GetLength());
 //                System.out.println("Width: " + HG.GetWidth());
-//                count++;
-            }
+//            }
+            System.out.println("Hypergraph Count: " + count);
+            count++;
         }
         
         return hypergraphCollection;
@@ -90,10 +89,38 @@ public class HypergraphGenerator<T, A>
     {
         ArrayList<Hypergraph<T, A>> hypergraphCollection = new ArrayList<Hypergraph<T, A>>();
         
+        System.out.println("Generating source node bound orders...");
+        ArrayList<String> sourceNumberOrders = Utilities.construct(utilities.Constants.source_bound, nodeListCollection.get(0).getNodes().size() - 1);
+        System.out.println("Done generating source node bound orders");
+        
         for(Linearization currList: nodeListCollection)
         {
             //changeable parameter (currently varying number of max source nodes to each Hyperedge (source_bound))
-            hypergraphCollection.addAll(genAllHypergraphs(currList, utilities.Constants.source_bound));
+            hypergraphCollection.addAll(genAllHypergraphs(currList, utilities.Constants.source_bound, sourceNumberOrders));
+        }
+        
+        return hypergraphCollection;
+    }
+    
+    public ArrayList<Hypergraph<T, A>> genFilteredHypergraphs(ArrayList<Linearization> nodeListCollection) throws Exception
+    {
+        ArrayList<Hypergraph<T, A>> hypergraphCollection = new ArrayList<Hypergraph<T, A>>();
+        
+        int numNodes = nodeListCollection.get(0).getNodes().size() - 1;
+        System.out.println("Generating source node bound orders...");
+        ArrayList<String> sourceNumberOrders = Utilities.construct(utilities.Constants.source_bound, numNodes);
+        System.out.println("Done generating source node bound orders");
+        
+        System.out.println("Filtering hypergraphs...");
+        HypergraphFilter<T> LFilter = new HypergraphFilter<T>(sourceNumberOrders, numNodes);
+        LFilter.filter();
+        System.out.println("DONE filtering hypergraphs.");
+        sourceNumberOrders = LFilter._hypergraphs;
+        
+        for(Linearization currList: nodeListCollection)
+        {
+            //changeable parameter (currently varying number of max source nodes to each Hyperedge (source_bound))
+            hypergraphCollection.addAll(genAllHypergraphs(currList, utilities.Constants.source_bound, sourceNumberOrders));
         }
         
         return hypergraphCollection;
