@@ -2,8 +2,9 @@ package utilities;
 
 import java.util.ArrayList;
 import java.util.Random;
+import questgeneration.constraints.HypergraphFilter;
 
-public class Utilities 
+public class Utilities
 {
     public static final boolean DEBUG = true;
     public static final boolean QUEST = true;
@@ -92,7 +93,43 @@ public class Utilities
         for (int count = 1; count < sz; count++)
         {
             strings = construct(strings, n, index);
-            index++;
+        }
+		
+	return strings;
+    }
+    
+    public static ArrayList<String> constructFiltered(int n, int sz)
+    {
+	ArrayList<String> strings = new ArrayList<String>();
+        HypergraphFilter HFilter;
+
+	//
+	// Prime the pump
+	//
+        if(QUEST)
+        {
+            Integer start = 1;
+            strings.add(start.toString());
+        }
+        else
+        {
+            for (int count = 1; count <= n; count++)
+            {
+                strings.add(Integer.toString(count));
+            }
+        }
+		
+	//
+	// General construction
+        //
+        int index = 2;
+        for (int count = 1; count < sz; count++)
+        {
+            strings = construct(strings, n, index);
+            //calls hypergraph filter to filter the strings so far
+            HFilter = new HypergraphFilter(strings, sz);
+            HFilter.filter();
+            strings = HFilter._hypergraphs;
         }
 		
 	return strings;
