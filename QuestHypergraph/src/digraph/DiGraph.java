@@ -87,6 +87,16 @@ public class DiGraph<T>
         return null;
     }
     
+    public ArrayList<Linearization<T>> filteredTopologicalSort()
+    {
+        if(isAcyclic() == true)
+        {
+            DepthFirstSearch DFS = new DepthFirstSearch(this);
+            return DFS.getFilteredTopologicalSorts();
+        }
+        return null;
+    }
+    
     public void addNode(T data)
     {
         nodes.add(new Node<T>(data, nodes.size()));

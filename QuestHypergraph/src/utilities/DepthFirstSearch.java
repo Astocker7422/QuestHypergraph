@@ -5,6 +5,7 @@ package utilities;
 import java.util.ArrayList;
 import digraph.*;
 import java.util.Stack;
+import questgeneration.constraints.LinearizationFilter;
 
 public class DepthFirstSearch<T>
 {
@@ -65,6 +66,12 @@ public class DepthFirstSearch<T>
     public ArrayList<Linearization<T>> getAllTopologicalSorts()
     {
         allTopologicalSort();
+        return all_topological_sorts;
+    }
+    
+    public ArrayList<Linearization<T>> getFilteredTopologicalSorts()
+    {
+        filteredTopologicalSort();
         return all_topological_sorts;
     }
     
@@ -131,12 +138,29 @@ public class DepthFirstSearch<T>
         
         time = 0;
         
-        allTopologicalSortUtil(topologicalSort);
+        allTopologicalSortUtil(topologicalSort, false);
     }
     
-    private void allTopologicalSortUtil(Linearization<T> sort)
+    public void filteredTopologicalSort()
+    {
+        //tried for loop*
+        for(int count = 0; count < graph.getVertices().size(); count++)
+        {
+            node_colors[count] = Color.WHITE;
+        }
+        
+        Linearization<T> topologicalSort = new Linearization<T>();
+        
+        time = 0;
+        
+        allTopologicalSortUtil(topologicalSort, true);
+    }
+    
+    private void allTopologicalSortUtil(Linearization<T> sort, boolean filter)
     {
         boolean flag = false;
+        
+        LinearizationFilter sortFilter = new LinearizationFilter(all_topological_sorts, graph.getVertices().size());
         
         for(int i = 0; i < graph.getVertices().size(); i++)
 	{
@@ -150,7 +174,7 @@ public class DepthFirstSearch<T>
 		sort.addNode(currNode);
                 node_colors[i] = Color.PURPLE;
                 
-		allTopologicalSortUtil(sort);
+		allTopologicalSortUtil(sort, filter);
                 
 		node_colors[i] = Color.WHITE;
 		sort.removeLast();
@@ -169,6 +193,10 @@ public class DepthFirstSearch<T>
         {
             newSort.addNode(sort.getNode(index));
         }
-	if(!flag) all_topological_sorts.add(newSort);
+        if(!flag && filter)
+        {
+            sortFilter.filter();
+            if(!flag) all_topological_sorts.add(newSort);
+        }
     }
 }

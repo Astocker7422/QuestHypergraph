@@ -401,15 +401,8 @@ public class Tester
         //TEST GEN ALL LINEARIZATIONS FROM ALL TOPOLOGICAL SORTS
         //
         System.out.println("Generating all linearizations...");
-        ArrayList<Linearization<Action>> allTopologicalSorts = DG.allTopologicalSort();
+        ArrayList<Linearization<Action>> allTopologicalSorts = DG.filteredTopologicalSort();
         System.out.println("DONE generating all linearizations.");
-        
-        System.out.println();
-        System.out.println("Filtering linearizations...");
-        LinearizationFilter<Action> LFilter = new LinearizationFilter<Action>(allTopologicalSorts, n);
-        LFilter.filter();
-        System.out.println("DONE filtering linearizations.");
-        allTopologicalSorts = LFilter._linearizations;
         
         System.out.println();
         System.out.println("Printing all linearizations...");

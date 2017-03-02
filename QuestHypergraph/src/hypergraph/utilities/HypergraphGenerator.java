@@ -61,8 +61,6 @@ public class HypergraphGenerator<T, A>
     {
         ArrayList<Hypergraph<T, A>> hypergraphCollection = new ArrayList<Hypergraph<T, A>>();
         
-        //
-        
         int count = 0;
         for(String hGraphStr: sourceNumberOrders)
         {
@@ -77,7 +75,7 @@ public class HypergraphGenerator<T, A>
 //                System.out.println("Length: " + HG.GetLength());
 //                System.out.println("Width: " + HG.GetWidth());
 //            }
-            System.out.println("Hypergraph Count: " + count);
+//            System.out.println("Hypergraph Count: " + count);
             count++;
         }
         
@@ -108,14 +106,7 @@ public class HypergraphGenerator<T, A>
         
         int numNodes = nodeListCollection.get(0).getNodes().size() - 1;
         System.out.println("Generating source node bound orders...");
-        ArrayList<String> sourceNumberOrders = Utilities.construct(utilities.Constants.source_bound, numNodes);
-        System.out.println("Done generating source node bound orders");
-        
-        System.out.println("Filtering hypergraphs...");
-        HypergraphFilter<T> HFilter = new HypergraphFilter<T>(sourceNumberOrders, numNodes);
-        HFilter.filter();
-        System.out.println("DONE filtering hypergraphs.");
-        sourceNumberOrders = HFilter._hypergraphs;
+        ArrayList<String> sourceNumberOrders = Utilities.constructFiltered(utilities.Constants.source_bound, numNodes);
         
         for(Linearization currList: nodeListCollection)
         {
