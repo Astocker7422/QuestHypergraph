@@ -130,6 +130,7 @@ public class Utilities
             HFilter = new HypergraphFilter(strings, sz);
             HFilter.filter();
             strings = HFilter._hypergraphs;
+            index++;
         }
 		
 	return strings;
@@ -148,7 +149,7 @@ public class Utilities
             
             for (String string : copy)
             {
-                if(subCount > index) continue;
+                if(subCount >= index) continue;
     		newer.add(string + Integer.toString(subCount));
             }
         }
