@@ -13,7 +13,7 @@ public class HypergraphFilter<T> implements Filter
                                             1000, 500, 350, 200, 150,
                                             100, 90, 80, 70, 60,
                                             55, 50, 45, 40, 35,
-                                            30, 100, 20, 18, 16,      //21 nodes is second from left in this row
+                                            30, Double.POSITIVE_INFINITY, 20, 18, 16,      //21 nodes is second from left in this row (sample Skyrim quest length)
                                             14, 12, 10, 8, 6, 4};
     
     public HypergraphFilter(ArrayList<String> hypergraphList, int numNodes)
@@ -118,6 +118,7 @@ public class HypergraphFilter<T> implements Filter
                 for(int subIndex = index; subIndex < _hypergraphs.size(); subIndex++)
                 {
                     if(Utilities.editDistance(_hypergraphs.get(index), _hypergraphs.get(subIndex)) < (numEdges / 2)) _hypergraphs.remove(subIndex);
+                    if(_hypergraphs.size() <= upper_bound) return;
                 }
             }
         }
