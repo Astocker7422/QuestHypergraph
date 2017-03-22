@@ -3,6 +3,7 @@ package hypergraph.utilities;
 import hypergraph.*;
 import digraph.*;
 import java.util.ArrayList;
+import java.util.Random;
 import questgeneration.constraints.HypergraphFilter;
 import utilities.*;
 
@@ -39,22 +40,46 @@ public class HypergraphGenerator<T, A>
         return HG;
     }
     
-//    public ArrayList<Hypergraph<T, A>> genRandomHypergraphs(ArrayList<Linearization> nodeListCollection)
-//    {
-//        ArrayList<Hypergraph<T, A>> hypergraphCollection = new ArrayList<Hypergraph<T, A>>();
-//        
-//        //
-//        for(Linearization currList: nodeListCollection)
-//        {
-//            //changeable parameter (currently varying number of max source nodes to each Hyperedge)
-//            for(int sourceBound = 1; sourceBound <= utilities.Constants.source_bound; sourceBound++)
-//            {
-//                hypergraphCollection.add(genRandomHypergraph(currList, sourceBound));
-//            }
-//        }
-//        
-//        return hypergraphCollection;
-//    }
+        public Hypergraph<T, A> genRandomHypergraph(ArrayList<Hypernode> nodes, int sourceNodeBound)
+    {
+        Hypergraph randomHG = new Hypergraph();
+        
+        for(Hypernode currNode : nodes)
+        {
+            randomHG.addNode(currNode.data);
+        }
+        
+        Random gen = new Random();
+        
+        //the parameter of nextInt() can be changed to adjust how many edges are allowed
+        int numEdges = gen.nextInt(10);
+        
+        HyperedgeGenerator edgeGen = new HyperedgeGenerator(randomHG);
+        
+        for(int count = 0; count < numEdges; count++)
+        {
+            randomHG.addEdge(edgeGen.createRandomEdge(gen, nodes.size(), "random edge"));
+        }
+        
+        return randomHG;
+    }
+    
+    public ArrayList<Hypergraph<T, A>> genRandomHypergraphs(ArrayList<Linearization> nodeListCollection)
+    {
+        ArrayList<Hypergraph<T, A>> hypergraphCollection = new ArrayList<Hypergraph<T, A>>();
+        
+        //
+        for(Linearization currList: nodeListCollection)
+        {
+            //changeable parameter (currently varying number of max source nodes to each Hyperedge)
+            for(int sourceBound = 1; sourceBound <= utilities.Constants.source_bound; sourceBound++)
+            {
+                hypergraphCollection.add(genRandomHypergraph(currList.getNodes(), sourceBound));
+            }
+        }
+        
+        return hypergraphCollection;
+    }
     
     //generates all hypergraphs possible from ONE linearization
     public ArrayList<Hypergraph<T, A>> genAllHypergraphs(Linearization nodeList, int sourceBound, ArrayList<String> sourceNumberOrders) throws Exception
@@ -104,10 +129,10 @@ public class HypergraphGenerator<T, A>
     {
         ArrayList<Hypergraph<T, A>> hypergraphCollection = new ArrayList<Hypergraph<T, A>>();
         
-        int numNodes = nodeListCollection.get(0).getNodes().size() - 1;
+        int numNodes = nodeListCollection.get(0).getNodes().size();
         System.out.println("Generating source node bound orders...");
         ArrayList<String> sourceNumberOrders = Utilities.constructFiltered(utilities.Constants.source_bound, numNodes);
-        
+        System.out.println(sourceNumberOrders);
         for(Linearization currList: nodeListCollection)
         {
             //changeable parameter (currently varying number of max source nodes to each Hyperedge (source_bound))
