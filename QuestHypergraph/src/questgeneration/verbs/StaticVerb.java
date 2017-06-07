@@ -1,14 +1,21 @@
 package questgeneration.verbs;
+import java.util.ArrayList;
 import questgeneration.nouns.Noun;
 import questgeneration.nouns.StaticNoun;
 
 public class StaticVerb extends Verb
 {
+    public StaticVerb(String theName, ArrayList<String> theMethods)
+    {
+        super(theName, theMethods);
+    }
+    
     public StaticVerb(String theName)
     {
         super(theName);
     }
     
+    @Override
     public boolean isCompatible(Noun theNoun)
     {
         //check if the noun is static
