@@ -11,6 +11,11 @@ public class Linearization<T>
         nodes = new ArrayList<Node<T>>();
     }
     
+    public Linearization(ArrayList<Node<T>> nodeList)
+    {
+        nodes = nodeList;
+    }
+    
     public void addNode(Node<T> newNode)
     {
         nodes.add(newNode);
