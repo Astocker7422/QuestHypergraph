@@ -22,6 +22,35 @@ public class Tester
     public static void main(String[] args) throws Exception
     {
         //
+        //TEST PARALLEL METHOD PATH GENERATION
+        //
+        ConstraintParser parser = new ConstraintParser("ParallelVerbNoun[COMPLEX].xml");
+        parser.parse();
+        
+        ActionGenerator actionGen = new ActionGenerator(parser);
+        ArrayList<Action> actionSet = actionGen.generateAllActions();
+        
+        Hypergraph HG = new Hypergraph();
+        
+        QuestHypergraphGenerator HGgen = new QuestHypergraphGenerator(HG);
+        
+        Action start = new Action(new LivingVerb("Talk To"), new Ally("Boss", new ArrayList<Verb>()));
+        Action end = new Action(new LivingVerb("Go To"), new Ally("Boss", new ArrayList<Verb>()));
+        
+        ArrayList<Constants.Method> methods = new ArrayList<Constants.Method>();
+        
+        methods.add(Constants.Method.BRUTALITY);
+        methods.add(Constants.Method.DIPLOMACY);
+        methods.add(Constants.Method.STEALTH);
+        methods.add(Constants.Method.WEALTH);
+        methods.add(Constants.Method.SORCERY);
+        
+        HGgen.genParallelismHG(start, end, actionSet, methods);
+        
+        System.out.println();
+        System.out.println(HGgen.getQuestHypergraph());
+        
+        //
         //TEST PARSER AND ACTIONGENERATOR
         //
 //        Hypergraph<Action, Annotation> hG = new Hypergraph<Action, Annotation>();
@@ -139,71 +168,71 @@ public class Tester
         //
         //TEST CREATE SKYRIM QUEST
         //
-        ConstraintParser parser = new ConstraintParser("ForbiddenLegend.xml");
-        parser.parse();
-        
-        DiGraph DG = new DiGraph();
-        
-        ActionGenerator actionGen = new ActionGenerator(parser);
-        actionGen.generateAllActions();
-        
-        DG.addNode(actionGen.getAction("go to", "Fulgunthur"));
-        DG.addNode(actionGen.getAction("go to", "Daynas Valen's Journal"));
-        DG.addNode(actionGen.getAction("read", "Daynas Valen's Journal"));
-        DG.addNode(actionGen.getAction("go to", "Daynas Valen's Notes"));
-        DG.addNode(actionGen.getAction("read", "Daynas Valen's Notes"));
-        DG.addNode(actionGen.getAction("kill", "Mikrul"));
-        DG.addNode(actionGen.getAction("collect", "Mikrul's Fragment"));
-        DG.addNode(actionGen.getAction("go to", "Saarthal"));
-        DG.addNode(actionGen.getAction("kill", "Jyric"));
-        DG.addNode(actionGen.getAction("collect", "Jyric's Fragment"));
-        DG.addNode(actionGen.getAction("go to", "Geirmund's Hall"));
-        DG.addNode(actionGen.getAction("kill", "Sigdis"));
-        DG.addNode(actionGen.getAction("collect", "Sigdis's Fragment"));
-        DG.addNode(actionGen.getAction("go to", "Reachwater Rock"));
-        DG.addNode(actionGen.getAction("place", "Mikrul's Fragment"));
-        DG.addNode(actionGen.getAction("place", "Jyric's Fragment"));
-        DG.addNode(actionGen.getAction("place", "Sigdis's Fragment"));
-        DG.addNode(actionGen.getAction("kill", "Ghost Mikrul"));
-        DG.addNode(actionGen.getAction("kill", "Ghost Sigdis"));
-        DG.addNode(actionGen.getAction("kill", "Ghost Jyric"));
-        DG.addNode(actionGen.getAction("collect", "Gauldur Amulet"));
-        
-        int n = DG.getVertices().size();
-        
-        DG.addEdge(0, 1);
-        DG.addEdge(1, 2);
-        DG.addEdge(2, 3);
-        DG.addEdge(3, 4);
-        DG.addEdge(4, 5);
-        DG.addEdge(4, 7);
-        DG.addEdge(4, 10);
-        DG.addEdge(5, 6);
-        DG.addEdge(7, 8);
-        DG.addEdge(8, 9);
-        DG.addEdge(10, 11);
-        DG.addEdge(11, 12);
-        DG.addEdge(6, 13);
-        DG.addEdge(9, 13);
-        DG.addEdge(12, 13);
-        DG.addEdge(13, 14);
-        DG.addEdge(13, 15);
-        DG.addEdge(13, 16);
-        DG.addEdge(14, 17);
-        DG.addEdge(15, 17);
-        DG.addEdge(16, 17);
-        DG.addEdge(17, 18);
-        DG.addEdge(18, 19);
-        DG.addEdge(19, 20);
-        
-        System.out.println("Original DiGraph: " + DG);
-        System.out.println("Length: " + DG.GetLength());
-        System.out.println("Width: " + DG.GetWidth());
-//            
+//        ConstraintParser parser = new ConstraintParser("ForbiddenLegend.xml");
+//        parser.parse();
+//        
+//        DiGraph DG = new DiGraph();
+//        
+//        ActionGenerator actionGen = new ActionGenerator(parser);
+//        actionGen.generateAllActions();
+//        
+//        DG.addNode(actionGen.getAction("go to", "Fulgunthur"));
+//        DG.addNode(actionGen.getAction("go to", "Daynas Valen's Journal"));
+//        DG.addNode(actionGen.getAction("read", "Daynas Valen's Journal"));
+//        DG.addNode(actionGen.getAction("go to", "Daynas Valen's Notes"));
+//        DG.addNode(actionGen.getAction("read", "Daynas Valen's Notes"));
+//        DG.addNode(actionGen.getAction("kill", "Mikrul"));
+//        DG.addNode(actionGen.getAction("collect", "Mikrul's Fragment"));
+//        DG.addNode(actionGen.getAction("go to", "Saarthal"));
+//        DG.addNode(actionGen.getAction("kill", "Jyric"));
+//        DG.addNode(actionGen.getAction("collect", "Jyric's Fragment"));
+//        DG.addNode(actionGen.getAction("go to", "Geirmund's Hall"));
+//        DG.addNode(actionGen.getAction("kill", "Sigdis"));
+//        DG.addNode(actionGen.getAction("collect", "Sigdis's Fragment"));
+//        DG.addNode(actionGen.getAction("go to", "Reachwater Rock"));
+//        DG.addNode(actionGen.getAction("place", "Mikrul's Fragment"));
+//        DG.addNode(actionGen.getAction("place", "Jyric's Fragment"));
+//        DG.addNode(actionGen.getAction("place", "Sigdis's Fragment"));
+//        DG.addNode(actionGen.getAction("kill", "Ghost Mikrul"));
+//        DG.addNode(actionGen.getAction("kill", "Ghost Sigdis"));
+//        DG.addNode(actionGen.getAction("kill", "Ghost Jyric"));
+//        DG.addNode(actionGen.getAction("collect", "Gauldur Amulet"));
+//        
+//        int n = DG.getVertices().size();
+//        
+//        DG.addEdge(0, 1);
+//        DG.addEdge(1, 2);
+//        DG.addEdge(2, 3);
+//        DG.addEdge(3, 4);
+//        DG.addEdge(4, 5);
+//        DG.addEdge(4, 7);
+//        DG.addEdge(4, 10);
+//        DG.addEdge(5, 6);
+//        DG.addEdge(7, 8);
+//        DG.addEdge(8, 9);
+//        DG.addEdge(10, 11);
+//        DG.addEdge(11, 12);
+//        DG.addEdge(6, 13);
+//        DG.addEdge(9, 13);
+//        DG.addEdge(12, 13);
+//        DG.addEdge(13, 14);
+//        DG.addEdge(13, 15);
+//        DG.addEdge(13, 16);
+//        DG.addEdge(14, 17);
+//        DG.addEdge(15, 17);
+//        DG.addEdge(16, 17);
+//        DG.addEdge(17, 18);
+//        DG.addEdge(18, 19);
+//        DG.addEdge(19, 20);
+//        
+//        System.out.println("Original DiGraph: " + DG);
+//        System.out.println("Length: " + DG.GetLength());
+//        System.out.println("Width: " + DG.GetWidth());
+            
         //
         // TEST LINEARIZATIONS AND HYPERGRAPHS 1 through n nodes, NO EDGES
         //
-//        int n = 7;
+//        int n = 5;
 //        
 //        DiGraph DG = new DiGraph();
 //        
@@ -400,47 +429,47 @@ public class Tester
         //
         //TEST GEN ALL LINEARIZATIONS FROM ALL TOPOLOGICAL SORTS
         //
-        System.out.println("Generating all linearizations...");
-        ArrayList<Linearization<Action>> allTopologicalSorts = DG.filteredTopologicalSort();
-        System.out.println("DONE generating all linearizations.");
-        
-        System.out.println();
-        System.out.println("Printing all linearizations...");
-        int sortIndex = 1;
-        for(Linearization<Action> currSort: allTopologicalSorts)
-        {
-            System.out.println(sortIndex + ". " + currSort);
-            System.out.println();
-            sortIndex++;
-        }
-        System.out.println("DONE printing all linearizations.");
+//        System.out.println("Generating all linearizations...");
+//        ArrayList<Linearization<Action>> allTopologicalSorts = DG.filteredTopologicalSort();
+//        System.out.println("DONE generating all linearizations.");
+//        
+//        System.out.println();
+//        System.out.println("Printing all linearizations...");
+//        int sortIndex = 1;
+//        for(Linearization<Action> currSort: allTopologicalSorts)
+//        {
+//            System.out.println(sortIndex + ". " + currSort);
+//            System.out.println();
+//            sortIndex++;
+//        }
+//        System.out.println("DONE printing all linearizations.");
         
         //
         //TEST GEN ALL HYPERGRAPHS FROM ALL LINEARIZATIONS
         //
-        System.out.println("Generating all hypergraphs...");
-        HypergraphGenerator hypergraphGen = new HypergraphGenerator();
-        ArrayList<Hypergraph> topologicalHypergraphList = hypergraphGen.genFilteredHypergraphs(allTopologicalSorts);
-        System.out.println("DONE generating all hypergraphs.");
-        
-        System.out.println();
-        System.out.println("Printing all hypergraphs...");
-        int graphIndex = 1;
-        for(Hypergraph currGraph: topologicalHypergraphList)
-        {
-            System.out.println(graphIndex + ". Hypergraph: " + currGraph);
-            DiGraph HGDG = new DiGraph(currGraph);
-            System.out.println("DiGraph: " + HGDG);
-            System.out.println("Length: " + HGDG.GetLength());
-            System.out.println("Width: " + HGDG.GetWidth());
-            System.out.println();
-            graphIndex++;
-        }
-        System.out.println("DONE printing all hypergraphs.");
-        
-        System.out.println();
-        System.out.println("Linearizations: " + allTopologicalSorts.size());
-        System.out.println("Hypergraphs: " + topologicalHypergraphList.size());
+//        System.out.println("Generating all hypergraphs...");
+//        HypergraphGenerator hypergraphGen = new HypergraphGenerator();
+//        ArrayList<Hypergraph> topologicalHypergraphList = hypergraphGen.genFilteredHypergraphs(allTopologicalSorts);
+//        System.out.println("DONE generating all hypergraphs.");
+//        
+//        System.out.println();
+//        System.out.println("Printing all hypergraphs...");
+//        int graphIndex = 1;
+//        for(Hypergraph currGraph: topologicalHypergraphList)
+//        {
+//            System.out.println(graphIndex + ". Hypergraph: " + currGraph);
+//            DiGraph HGDG = new DiGraph(currGraph);
+//            System.out.println("DiGraph: " + HGDG);
+//            System.out.println("Length: " + HGDG.GetLength());
+//            System.out.println("Width: " + HGDG.GetWidth());
+//            System.out.println();
+//            graphIndex++;
+//        }
+//        System.out.println("DONE printing all hypergraphs.");
+//        
+//        System.out.println();
+//        System.out.println("Linearizations: " + allTopologicalSorts.size());
+//        System.out.println("Hypergraphs: " + topologicalHypergraphList.size());
         
         //
         //TEST GEN ALL TOPOLOGICAL SORTS
@@ -475,11 +504,11 @@ public class Tester
 //        {
 //            for(int nodesSize = 0; nodesSize < NUM_NODES; nodesSize++)
 //            {
-//                PebbledHypergraph pGraph = hG.getPebbledHypergraph();
+//                PebblerHypergraph pGraph = hG.getPebbledHypergraph();
 //        
 //                System.out.println(pGraph);
 //                
-//                Pebbler pebbler = new Pebbler(hG, pGraph);
+//                Pebbler pebbler = new Pebbler(pGraph);
 //        
 //                ArrayList<Integer> nodes = new ArrayList<>(Utilities.genSubset(gen, nodesSize, 0, 9));
 //
@@ -488,24 +517,24 @@ public class Tester
 ////                nodes.add(5);
 ////                nodes.add(8);
 //        
-//            pebbler.pebble(nodes);
+//              pebbler.pebble(nodes);
 //        
-//            HyperedgeMultiMap map = pebbler.getForwardEdges();
-//            System.out.println(map);
+//              HyperedgeMultiMap map = pebbler.getForwardEdges();
+//              System.out.println(map);
 //        
-//            //int MAX_GIVENS = 4;
-//            PathGenerator pathGen = new PathGenerator(hG);
-//            PathHashMap pathMap = new PathHashMap(map, hG.size());
+//              //int MAX_GIVENS = 4;
+//              PathGenerator pathGen = new PathGenerator(hG);
+//              PathHashMap pathMap = new PathHashMap(map, hG.size());
 //        
-//            int GOAL_NODE = goalNode;
-//            pathGen.GeneratePathBackwardToLeaves(pathMap, map, GOAL_NODE);
+//              int GOAL_NODE = goalNode;
+//              pathGen.GeneratePathBackwardToLeaves(pathMap, map, GOAL_NODE);
 //        
-//            // Write code to print all the paths (from the pathHashMap) with goal node 3.
-//            for (Path path : pathMap.get(GOAL_NODE))
-//            {
+//              // Write code to print all the paths (from the pathHashMap) with goal node 3.
+//              for (Path path : pathMap.get(GOAL_NODE))
+//              {
 //                System.out.println(path);
-//            }
-//            }
+//              }
+//           }
 //        }
         
 //        ConstraintParser parser = new ConstraintParser("VerbNounList.xml");
