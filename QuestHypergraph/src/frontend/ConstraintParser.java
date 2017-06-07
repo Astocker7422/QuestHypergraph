@@ -96,10 +96,20 @@ public class ConstraintParser
             {
                 Element StaticVerbElement = (Element) StaticVerbNode;
                 String theName = StaticVerbElement.getElementsByTagName("name").item(0).getTextContent();
-                StaticVerb sVerb = new StaticVerb(theName);
+                ArrayList<String> theMethods = new ArrayList<String>();
+                for(int VerbNodeNumber = 0; VerbNodeNumber < StaticVerbElement.getElementsByTagName("Method").getLength(); VerbNodeNumber++)
+                {
+                    theMethods.add(StaticVerbElement.getElementsByTagName("Method").item(VerbNodeNumber).getTextContent());
+                }
+                StaticVerb sVerb = new StaticVerb(theName, theMethods);
                 StaticVerb_List.add(sVerb);
                 Verb_List.add(sVerb);
-                if(Options.DEBUG) System.out.println("    " + sVerb.getName());
+                if(Options.DEBUG)
+                {
+                    System.out.println();
+                    System.out.println("    " + sVerb.getName());
+                    System.out.print("        Methods: " + sVerb.methods);
+                }
             }
         }
     }
@@ -108,7 +118,11 @@ public class ConstraintParser
     {
         Element root = doc.getDocumentElement();
         NodeList LivingVerb_NodeList = doc.getElementsByTagName("LivingVerb");
-        if(Options.DEBUG) System.out.println("Living Verbs:");
+        if(Options.DEBUG)
+        {
+            System.out.println();
+            System.out.println("Living Verbs:");
+        }
         for (int temp = 0; temp < LivingVerb_NodeList.getLength(); temp++) 
         {
             Node LivingVerbNode = LivingVerb_NodeList.item(temp);
@@ -117,10 +131,19 @@ public class ConstraintParser
             {
                 Element LivingVerbElement = (Element) LivingVerbNode;
                 String theName = LivingVerbElement.getElementsByTagName("name").item(0).getTextContent();
-                LivingVerb sVerb = new LivingVerb(theName);
-                LivingVerb_List.add(sVerb);
-                Verb_List.add(sVerb);
-                if(Options.DEBUG) System.out.println("    " + sVerb.getName());
+                ArrayList<String> theMethods = new ArrayList<String>();
+                for(int VerbNodeNumber = 0; VerbNodeNumber < LivingVerbElement.getElementsByTagName("Method").getLength(); VerbNodeNumber++)
+                {
+                    theMethods.add(LivingVerbElement.getElementsByTagName("Method").item(VerbNodeNumber).getTextContent());
+                }
+                LivingVerb lVerb = new LivingVerb(theName, theMethods);
+                LivingVerb_List.add(lVerb);
+                Verb_List.add(lVerb);
+                if(Options.DEBUG)
+                {
+                    System.out.println("    " + lVerb.getName());
+                    System.out.println("        Methods: " + lVerb.methods);
+                }
             }
         }
     }
@@ -197,6 +220,7 @@ public class ConstraintParser
                 {
                     System.out.println("    " + currTool.getType());
                     System.out.println("        Negated Verbs:");
+                    if(negatedVerbs.isEmpty()) System.out.println("        None");
                     for(Verb negated: currTool.getNegatedVerbs())
                     {
                         System.out.println("        " + negated.getName());
@@ -242,6 +266,7 @@ public class ConstraintParser
                 {
                     System.out.println("    " + currIngredient.getType());
                     System.out.println("        Negated Verbs:");
+                    if(negatedVerbs.isEmpty()) System.out.println("        None");
                     for(Verb negated: currIngredient.getNegatedVerbs())
                     {
                         System.out.println("        " + negated.getName());
@@ -287,6 +312,7 @@ public class ConstraintParser
                 {
                     System.out.println("    " + currRelic.getType());
                     System.out.println("        Negated Verbs:");
+                    if(negatedVerbs.isEmpty()) System.out.println("        None");
                     for(Verb negated: currRelic.getNegatedVerbs())
                     {
                         System.out.println("        " + negated.getName());
@@ -332,6 +358,7 @@ public class ConstraintParser
                 {
                     System.out.println("    " + currBook.getType());
                     System.out.println("        Negated Verbs:");
+                    if(negatedVerbs.isEmpty()) System.out.println("        None");
                     for(Verb negated: currBook.getNegatedVerbs())
                     {
                         System.out.println("        " + negated.getName());
@@ -377,6 +404,7 @@ public class ConstraintParser
                 {
                     System.out.println("    " + currKey.getType());
                     System.out.println("        Negated Verbs:");
+                    if(negatedVerbs.isEmpty()) System.out.println("        None");
                     for(Verb negated: currKey.getNegatedVerbs())
                     {
                         System.out.println("        " + negated.getName());
@@ -422,6 +450,7 @@ public class ConstraintParser
                 {
                     System.out.println("    " + currPlace.getType());
                     System.out.println("        Negated Verbs:");
+                    if(negatedVerbs.isEmpty()) System.out.println("        None");
                     for(Verb negated: currPlace.getNegatedVerbs())
                     {
                         System.out.println("        " + negated.getName());
@@ -467,6 +496,7 @@ public class ConstraintParser
                 {
                     System.out.println("    " + currAlly.getType());
                     System.out.println("        Negated Verbs:");
+                    if(negatedVerbs.isEmpty()) System.out.println("        None");
                     for(Verb negated: currAlly.getNegatedVerbs())
                     {
                         System.out.println("        " + negated.getName());
@@ -512,6 +542,7 @@ public class ConstraintParser
                 {
                     System.out.println("    " + currEnemy.getType());
                     System.out.println("        Negated Verbs:");
+                    if(negatedVerbs.isEmpty()) System.out.println("        None");
                     for(Verb negated: currEnemy.getNegatedVerbs())
                     {
                         System.out.println("        " + negated.getName());
