@@ -53,4 +53,11 @@ public class Hypernode<T, A>
     {
         return new PebblerHypernode<A>(id);
     }
+    
+    public boolean isComplex()
+    {
+        Hypergraph HG = new Hypergraph();
+        if(data.getClass().equals(HG.getClass())) return true;
+        return false;
+    }
 }

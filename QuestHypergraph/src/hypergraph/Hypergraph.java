@@ -3,17 +3,65 @@ package hypergraph;
 import java.util.ArrayList;
 import java.util.Collections;
 
+import questgeneration.QuestData;
 import pebbler.PebblerHyperedge;
 import pebbler.PebblerHypergraph;
 import pebbler.PebblerHypernode;
 
-public class Hypergraph<T, A>
+public class Hypergraph<T, A> extends QuestData
 {
     public ArrayList<Hypernode<T, A>> vertices;
     
     public Hypergraph()
     {
         vertices = new ArrayList<Hypernode<T, A>>();
+        isComplex = true;
+    }
+    
+    public Hypergraph(Hypergraph<T, A> HG)
+    {
+        vertices = new ArrayList<Hypernode<T, A>>();
+        
+        for(Hypernode<T, A> currNode : HG.vertices)
+	{
+            this.addNode(currNode.data, currNode.id);
+        }
+            
+        for(Hypernode currNode : HG.vertices)
+        {
+            ArrayList<Hyperedge> currNodeOut = currNode.outEdges;
+            ArrayList<Hyperedge> currNodeIn = currNode.inEdges;
+            
+            for(Hyperedge outEdge : currNodeOut)
+            {
+                ArrayList<Integer> oldFromList = outEdge.sourceNodes;
+                ArrayList<Integer> newFromList = new ArrayList<Integer>();
+                for(Integer from : oldFromList)
+                {
+                    newFromList.add(from);
+                }
+                
+                int newTarget = outEdge.targetNode;
+                
+                this.addEdge(newFromList, newTarget);
+            }
+            
+            for(Hyperedge inEdge : currNodeIn)
+            {
+                ArrayList<Integer> oldFromList = inEdge.sourceNodes;
+                ArrayList<Integer> newFromList = new ArrayList<Integer>();
+                for(Integer from : oldFromList)
+                {
+                    newFromList.add(from);
+                }
+                
+                int newTarget = inEdge.targetNode;
+                
+                this.addEdge(newFromList, newTarget);
+            }
+	}
+        
+        isComplex = true;
     }
     
     public int size() { return vertices.size(); }
@@ -68,9 +116,13 @@ public class Hypergraph<T, A>
     }
     
     //returns the node with a specific id
-    public Hypernode<T, A> getNode(int id)
+    public Hypernode<T, A> getNode(int id) throws Exception
     {
-        return vertices.get(id);
+        for(Hypernode currNode : vertices)
+        {
+            if(currNode.id == id) return currNode;
+        }
+        throw new Exception();
     }
     
     public boolean isDisconnected()
@@ -129,7 +181,10 @@ public class Hypergraph<T, A>
         {
             if(vertices.indexOf(currNode) != 0) graphS += ", [Vertex " + vertices.indexOf(currNode) + "]: ";
             else graphS += "[Vertex " + vertices.indexOf(currNode) + "]: ";
-            graphS += "(data: " + currNode.data + " / ";
+            
+            if(!currNode.isComplex()) graphS += "(data: " + currNode.data + " / ";
+            else graphS += "(data: SUB-QUEST / ";
+            
             graphS += "out edges: ";
             if(currNode.outEdges.isEmpty()) graphS += "none ";
             for(Hyperedge<A> currEdge: currNode.outEdges)
@@ -141,12 +196,19 @@ public class Hypergraph<T, A>
                 }
                 else graphS += currEdge.toString();
             }
+            
             graphS += " / in edges: ";
             if(currNode.inEdges.isEmpty()) graphS += "none ";
             for(Hyperedge<A> currEdge: currNode.inEdges)
             {
-                graphS += currEdge.toString();
+                int lastIndex = currNode.inEdges.size() - 1;
+                if((currNode.inEdges.indexOf(currEdge)) != (lastIndex))
+                {
+                    graphS += currEdge.toString() + ", ";
+                }
+                else graphS += currEdge.toString();
             }
+            
             graphS += ")";
         }
         
