@@ -4,6 +4,7 @@ import hypergraph.*;
 import digraph.*;
 import java.util.ArrayList;
 import java.util.Random;
+import questgeneration.QuestData;
 import questgeneration.constraints.HypergraphFilter;
 import utilities.*;
 
@@ -86,11 +87,31 @@ public class HypergraphGenerator<T, A>
     {
         ArrayList<Hypergraph<T, A>> hypergraphCollection = new ArrayList<Hypergraph<T, A>>();
         
-        int count = 0;
+//        int count = 0;
         for(String hGraphStr: sourceNumberOrders)
         {
             Hypergraph<T, A> newHG = genHypergraph(nodeList, hGraphStr, sourceBound);
+            
             if(newHG.isDisconnected()) continue;
+            
+            boolean valid = true;
+            
+            if(newHG.isDisconnected()) valid = false;
+            
+            //check if any parallelism sections are concurrent with any actions
+            //if so, invalid hypergraph
+            for(Hypernode<T, A> currNode : newHG.vertices)
+            {
+                if(currNode.isComplex())
+                {
+                    for(Hyperedge currEdge : currNode.outEdges)
+                    {
+                        if(currEdge.sourceNodes.size() != 1) valid = false;
+                    }
+                }
+            }
+            
+            if(valid) hypergraphCollection.add(newHG);
             
             hypergraphCollection.add(newHG);
 //            if(count % 100 == 0)
@@ -101,7 +122,7 @@ public class HypergraphGenerator<T, A>
 //                System.out.println("Width: " + HG.GetWidth());
 //            }
 //            System.out.println("Hypergraph Count: " + count);
-            count++;
+//            count++;
         }
         
         return hypergraphCollection;
