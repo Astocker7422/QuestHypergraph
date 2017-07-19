@@ -8,9 +8,9 @@ public class HypergraphFilter<T> implements Filter
     double upper_bound;
     public ArrayList<String> _hypergraphs;
     public enum _function {EDIT_DISTANCE, HAMMING, KENDALL_TAU};
-    //number of hypergraphs allowed PER LINEARIZATION
-    private final double[] upperBounds = {0, Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY,
-                                            1000, 500, 350, 200, 150,
+    //number of hypergraphs allowed PER LINEARIZATION by number of nodes (0 - 30 nodes)
+    private final double[] upperBounds = {0, Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY, 3,
+                                            5, 1, 350, 200, 150,
                                             100, 90, 80, 70, 60,
                                             55, 50, 45, 40, 35,
                                             30, Double.POSITIVE_INFINITY, 20, 18, 16,      //21 nodes is second from left in this row (sample Skyrim quest length)
