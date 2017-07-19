@@ -357,7 +357,7 @@ public class Path<T, A>
 //	}
 
 	//Hypergraph<T, A>.Hypergraph<T, A><ConcreteAST.GroundedClause, Hypergraph<T, A>.EdgeAnnotation>
-	public String ConstructPathAndSolution(Hypergraph<T, A> graph)
+	public String ConstructPathAndSolution(Hypergraph<T, A> graph) throws Exception
 	{
 		// Sort the startNodes and path for ease in readability; they are reverse-sorted
 		//trycatch
