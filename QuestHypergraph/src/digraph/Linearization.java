@@ -21,6 +21,11 @@ public class Linearization<T>
         nodes.add(newNode);
     }
     
+    public void addNode(T data)
+    {
+        nodes.add(new Node<T>(data, nodes.size()));
+    }
+    
     public Node<T> getNode(int index)
     {
         return nodes.get(index);

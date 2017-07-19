@@ -26,7 +26,7 @@ public class DiGraph<T>
         numEdges = 0;
     }
     
-    public DiGraph(Hypergraph HG)
+    public DiGraph(Hypergraph HG) throws Exception
     {
         nodes = new ArrayList<Node<T>>();
         nodesInt = new ArrayList<Integer>();
