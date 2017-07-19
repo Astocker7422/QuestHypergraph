@@ -22,33 +22,50 @@ public class Tester
     public static void main(String[] args) throws Exception
     {
         //
+        //TEST PARALLEL METHOD PATH GENERATION (OUTDATED!)
+        //
+//        ConstraintParser parser = new ConstraintParser("ParallelVerbNoun[SUB].xml");
+//        parser.parse();
+//        
+//        ActionGenerator actionGen = new ActionGenerator(parser);
+//        ArrayList<Action> actionSet = actionGen.generateAllActions();
+//        
+//        Hypergraph HG = new Hypergraph();
+//        
+//        QuestHypergraphGenerator HGgen = new QuestHypergraphGenerator(HG);
+//        
+//        Action start = new Action(new LivingVerb("Talk To"), new Ally("Boss", new ArrayList<Verb>()));
+//        Action end = new Action(new LivingVerb("Go To"), new Ally("Boss", new ArrayList<Verb>()));
+//        
+//        ArrayList<Constants.Method> methods = new ArrayList<Constants.Method>();
+//        
+//        methods.add(Constants.Method.BRUTALITY);
+//        methods.add(Constants.Method.DIPLOMACY);
+//        methods.add(Constants.Method.STEALTH);
+//        methods.add(Constants.Method.WEALTH);
+//        methods.add(Constants.Method.SORCERY);
+//        
+//        HGgen.genParallelismHG(start, end, actionSet, methods);
+//        
+//        System.out.println();
+//        System.out.println(HGgen.getQuestHypergraph());
+        
+        //
         //TEST PARALLEL METHOD PATH GENERATION
         //
-        ConstraintParser parser = new ConstraintParser("ParallelVerbNoun[COMPLEX].xml");
-        parser.parse();
-        
-        ActionGenerator actionGen = new ActionGenerator(parser);
-        ArrayList<Action> actionSet = actionGen.generateAllActions();
-        
         Hypergraph HG = new Hypergraph();
-        
         QuestHypergraphGenerator HGgen = new QuestHypergraphGenerator(HG);
         
-        Action start = new Action(new LivingVerb("Talk To"), new Ally("Boss", new ArrayList<Verb>()));
-        Action end = new Action(new LivingVerb("Go To"), new Ally("Boss", new ArrayList<Verb>()));
+        ArrayList<Hypergraph> hypergraphList = HGgen.genParallelismQuestHypergraphs("ParallelVerbNoun[MAIN].xml", "ParallelVerbNoun[SUB].xml");
         
-        ArrayList<Constants.Method> methods = new ArrayList<Constants.Method>();
-        
-        methods.add(Constants.Method.BRUTALITY);
-        methods.add(Constants.Method.DIPLOMACY);
-        methods.add(Constants.Method.STEALTH);
-        methods.add(Constants.Method.WEALTH);
-        methods.add(Constants.Method.SORCERY);
-        
-        HGgen.genParallelismHG(start, end, actionSet, methods);
-        
-        System.out.println();
-        System.out.println(HGgen.getQuestHypergraph());
+        int HGCount = 0;
+        System.out.println("Quest Hypergraphs Generated: " + hypergraphList.size());
+        for(Hypergraph currHG : hypergraphList)
+        {
+            System.out.println(HGCount + ". " + currHG);
+            System.out.println();
+            HGCount++;
+        }
         
         //
         //TEST PARSER AND ACTIONGENERATOR
