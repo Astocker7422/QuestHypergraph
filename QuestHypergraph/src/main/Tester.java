@@ -14,6 +14,7 @@ import questgeneration.QuestHypergraphGenerator;
 import questgeneration.verbs.*;
 import questgeneration.nouns.*;
 import hypergraph.utilities.*;
+import java.text.DecimalFormat;
 import utilities.*;
 
 public class Tester 
@@ -53,19 +54,259 @@ public class Tester
         //
         //TEST PARALLEL METHOD PATH GENERATION
         //
+        long startTime = System.nanoTime();
+        
         Hypergraph HG = new Hypergraph();
         QuestHypergraphGenerator HGgen = new QuestHypergraphGenerator(HG);
         
         ArrayList<Hypergraph> hypergraphList = HGgen.genParallelismQuestHypergraphs("ParallelVerbNoun[MAIN].xml", "ParallelVerbNoun[SUB].xml");
         
-        int HGCount = 0;
+        int HGCount = 1;
         System.out.println("Quest Hypergraphs Generated: " + hypergraphList.size());
         for(Hypergraph currHG : hypergraphList)
         {
-            System.out.println(HGCount + ". " + currHG);
-            System.out.println();
+//            System.out.println(HGCount + ". " + currHG);
+//            System.out.println();
+            
+            int concurrency = currHG.concurrencyCount();
+            DecimalFormat f = new DecimalFormat("##.00");
+            System.out.print("\"" + HGCount + "\",");
+            int min = currHG.minDepth();
+            if(min < 7) System.out.print("\"" + 7 + "\",");
+            else System.out.print("\"" + min + "\",");
+            System.out.print("\"" + currHG.maxDepth() + "\",");
+            System.out.print("\"" + concurrency + "\",");
+            System.out.print("\"" + f.format(currHG.concurrencyFactor(concurrency)) + "\",");
+            System.out.println("\"" + currHG.pathComplexity() + "\"");
             HGCount++;
         }
+        
+        long endTime = System.nanoTime();
+
+	long elapsedTime = endTime - startTime;
+
+        System.out.println("Elapsed time in milliseconds: " + elapsedTime / 1000000);
+        
+        //
+        //TEST DEPTH METHODS
+        //
+        
+        //SIMPLE
+//        Hypergraph HG = new Hypergraph();
+//        
+//        Hypergraph subHG = new Hypergraph();
+//        
+//        subHG.addNode(0);
+//        subHG.addNode(1);
+//        subHG.addNode(2);
+//        subHG.addNode(3);
+//        subHG.addNode(4);
+//        subHG.addNode(5);
+//        
+//        ArrayList<Integer> from5 = new ArrayList<Integer>();
+//        from5.add(0);
+//        subHG.addEdge(from5, 1);
+//        subHG.addEdge(from5, 2);
+//        subHG.addEdge(from5, 4);
+//        
+//        ArrayList<Integer> from6 = new ArrayList<Integer>();
+//        from6.add(1);
+//        from6.add(2);
+//        subHG.addEdge(from6, 3);
+//        
+//        ArrayList<Integer> from7 = new ArrayList<Integer>();
+//        from7.add(3);
+//        subHG.addEdge(from7, 5);
+//        
+//        ArrayList<Integer> from8 = new ArrayList<Integer>();
+//        from8.add(4);
+//        subHG.addEdge(from8, 5);
+//        
+//        HG.addNode(0);
+//        HG.addNode(1);
+//        HG.addNode(2);
+//        HG.addNode(3);
+//        HG.addNode(subHG);
+//        HG.addNode(5);
+//        
+//        ArrayList<Integer> from1 = new ArrayList<Integer>();
+//        from1.add(0);
+//        HG.addEdge(from1, 1);
+//        HG.addEdge(from1, 2);
+//        HG.addEdge(from1, 4);
+//        
+//        ArrayList<Integer> from2 = new ArrayList<Integer>();
+//        from2.add(1);
+//        from2.add(2);
+//        HG.addEdge(from2, 3);
+//        
+//        ArrayList<Integer> from3 = new ArrayList<Integer>();
+//        from3.add(3);
+//        HG.addEdge(from3, 5);
+//        
+//        ArrayList<Integer> from4 = new ArrayList<Integer>();
+//        from4.add(4);
+//        HG.addEdge(from4, 5);
+//        
+        //GENERATED
+//    Hypergraph subHG1 = new Hypergraph();
+//                
+//    subHG1.addNode(0);
+//    subHG1.addNode(1);
+//    subHG1.addNode(2);
+//    subHG1.addNode(3);
+//    subHG1.addNode(4);
+//    subHG1.addNode(5);
+//    subHG1.addNode(6);
+//    subHG1.addNode(7);
+//    subHG1.addNode(8);
+//    subHG1.addNode(9);
+//    subHG1.addNode(10);
+//    
+//    ArrayList<Integer> from1 = new ArrayList<Integer>();
+//    from1.add(0);
+//    subHG1.addEdge(from1, 2);
+//    subHG1.addEdge(from1, 3);
+//    subHG1.addEdge(from1, 4);
+//    subHG1.addEdge(from1, 6);
+//    subHG1.addEdge(from1, 9);
+//    
+//    ArrayList<Integer> from2 = new ArrayList<Integer>();
+//    from2.add(2);
+//    subHG1.addEdge(from2, 1);
+//    
+//    ArrayList<Integer> from3 = new ArrayList<Integer>();
+//    from3.add(3);
+//    subHG1.addEdge(from3, 1);
+//    
+//    ArrayList<Integer> from4 = new ArrayList<Integer>();
+//    from4.add(4);
+//    subHG1.addEdge(from4, 5);
+//    
+//    ArrayList<Integer> from5 = new ArrayList<Integer>();
+//    from5.add(5);
+//    subHG1.addEdge(from5, 1);
+//    
+//    ArrayList<Integer> from6 = new ArrayList<Integer>();
+//    from6.add(6);
+//    subHG1.addEdge(from6, 7);
+//    
+//    ArrayList<Integer> from7 = new ArrayList<Integer>();
+//    from7.add(7);
+//    subHG1.addEdge(from7, 8);
+//    
+//    ArrayList<Integer> from8 = new ArrayList<Integer>();
+//    from8.add(8);
+//    subHG1.addEdge(from8, 1);
+//    
+//    ArrayList<Integer> from9 = new ArrayList<Integer>();
+//    from9.add(9);
+//    subHG1.addEdge(from9, 10);
+//    
+//    ArrayList<Integer> from10 = new ArrayList<Integer>();
+//    from10.add(10);
+//    subHG1.addEdge(from10, 1);
+//        
+//    Hypergraph subHG2 = new Hypergraph();
+//
+//    subHG2.addNode(0);
+//    subHG2.addNode(1);
+//    subHG2.addNode(2);
+//    subHG2.addNode(3);
+//    subHG2.addNode(4);
+//    subHG2.addNode(5);
+//    subHG2.addNode(6);
+//    subHG2.addNode(7);
+//    subHG2.addNode(8);
+//    subHG2.addNode(9);
+//    
+//    subHG2.addEdge(from1, 2);
+//    subHG2.addEdge(from1, 3);
+//    subHG2.addEdge(from1, 4);
+//    subHG2.addEdge(from1, 5);
+//    subHG2.addEdge(from1, 6);
+//    
+//    ArrayList<Integer> from11 = new ArrayList<Integer>();
+//    from11.add(2);
+//    subHG2.addEdge(from11, 1);
+//    
+//    ArrayList<Integer> from12 = new ArrayList<Integer>();
+//    from12.add(3);
+//    subHG2.addEdge(from12, 1);
+//    
+//    ArrayList<Integer> from13 = new ArrayList<Integer>();
+//    from13.add(4);
+//    subHG2.addEdge(from13, 1);
+//    
+//    ArrayList<Integer> from14 = new ArrayList<Integer>();
+//    from14.add(5);
+//    subHG2.addEdge(from14, 1);
+//    
+//    ArrayList<Integer> from15 = new ArrayList<Integer>();
+//    from15.add(6);
+//    subHG2.addEdge(from15, 7);
+//    
+//    ArrayList<Integer> from16 = new ArrayList<Integer>();
+//    from16.add(7);
+//    subHG2.addEdge(from16, 8);
+//    
+//    ArrayList<Integer> from17 = new ArrayList<Integer>();
+//    from17.add(8);
+//    subHG2.addEdge(from17, 9);
+//    
+//    ArrayList<Integer> from18 = new ArrayList<Integer>();
+//    from18.add(9);
+//    subHG2.addEdge(from18, 1);
+//        
+//    Hypergraph HG = new Hypergraph();
+//    
+//    HG.addNode(0);
+//    HG.addNode(1);
+//    HG.addNode(2);
+//    HG.addNode(3);
+//    HG.addNode(4);
+//    HG.addNode(subHG1);
+//    HG.addNode(subHG2);
+//    
+//    ArrayList<Integer> fromH1 = new ArrayList<Integer>();
+//    fromH1.add(0);
+//    HG.addEdge(fromH1, 1);
+//    
+//    ArrayList<Integer> fromH2 = new ArrayList<Integer>();
+//    fromH2.add(1);
+//    HG.addEdge(fromH2, 2);
+//    
+//    ArrayList<Integer> fromH3 = new ArrayList<Integer>();
+//    fromH3.add(2);
+//    HG.addEdge(fromH3, 3);
+//    
+//    ArrayList<Integer> fromH4 = new ArrayList<Integer>();
+//    fromH4.add(3);
+//    HG.addEdge(fromH4, 4);
+//    
+//    ArrayList<Integer> fromH5 = new ArrayList<Integer>();
+//    fromH5.add(4);
+//    HG.addEdge(fromH5, 5);
+//    
+//    ArrayList<Integer> fromH6 = new ArrayList<Integer>();
+//    fromH6.add(5);
+//    HG.addEdge(fromH6, 6);
+//        
+//    System.out.println(HG);
+//    System.out.println("Min: " + HG.minDepth());
+//    System.out.println("Max: " + HG.maxDepth());
+        
+        //
+        //TEST GENFILTEREDHYPERGRAPHS
+        //
+//        QuestHypergraphGenerator questGen = new QuestHypergraphGenerator();
+//        ArrayList<Hypergraph> questList = questGen.genManyQuestHypergraphs("ParallelVerbNoun[MAIN].xml");
+//        int count = 1;
+//        for(Hypergraph quest : questList)
+//        {
+//            System.out.println(count + ". " + quest);
+//            count++;
+//        }
         
         //
         //TEST PARSER AND ACTIONGENERATOR
@@ -249,7 +490,7 @@ public class Tester
         //
         // TEST LINEARIZATIONS AND HYPERGRAPHS 1 through n nodes, NO EDGES
         //
-//        int n = 5;
+//        int n = 10;
 //        
 //        DiGraph DG = new DiGraph();
 //        
@@ -408,15 +649,9 @@ public class Tester
 //        }
 //        
 //        DG.addEdge(0, 1);
-//        DG.addEdge(0, 2);
-//        DG.addEdge(0, 3);
-//        DG.addEdge(1, 4);
 //        DG.addEdge(2, 4);
 //        DG.addEdge(3, 5);
 //        DG.addEdge(4, 6);
-//        DG.addEdge(5, 7);
-//        DG.addEdge(6, 8);
-//        DG.addEdge(7, 8);
 //        DG.addEdge(8, 9);
         
         //11 nodes
