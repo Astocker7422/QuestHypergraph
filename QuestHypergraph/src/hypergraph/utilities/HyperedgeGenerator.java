@@ -40,7 +40,7 @@ public class HyperedgeGenerator<T, A>
         return newEdge;
     }
     
-    public void genBoundedHyperedges(int currNode, String sourceNumberOrder)
+    public void genBoundedHyperedges(int currNode, String sourceNumberOrder) throws Exception
     {
         if(currNode == 0) return;
         
@@ -48,15 +48,31 @@ public class HyperedgeGenerator<T, A>
         
         if((currNode - sourceBound) < 0) return;
         
-        int[] sources;
+        ArrayList<Integer> invalid = new ArrayList<Integer>();
         
-        sources = new int[sourceBound];
-        int index = 0;
-        for(int count = 1; count <= sourceBound; count++)
+        for(int targetNode = (_HG.size() - 1); targetNode > currNode; targetNode--)
         {
-            sources[index] = currNode - count;
-            index++;
+            ArrayList<Hyperedge> inEdges = _HG.getNode(targetNode).inEdges;
+            for(Hyperedge<A> inEdge : inEdges)
+            {
+                if(inEdge.sourceNodes.contains(currNode))
+                {
+                    for(int source : inEdge.sourceNodes)
+                    {
+                        invalid.add(source);
+                    }
+                }
+            }
         }
+        
+        ArrayList<Integer> sources = new ArrayList<Integer>();
+        int nodeIndex = currNode - 1;
+        while(sources.size() < sourceBound && nodeIndex >= 0)
+        {
+            if(!invalid.contains(nodeIndex)) sources.add(nodeIndex);
+            nodeIndex--;
+        }
+        if(sources.isEmpty()) return;
         
         Annotation edgeAnnotation = new Annotation();
         

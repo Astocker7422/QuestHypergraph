@@ -22,7 +22,7 @@ public class HypergraphGenerator<T, A>
         node_list = nodes;
     }
     
-    public Hypergraph<T, A> genHypergraph(Linearization nodes, String sourceNumberOrder, int sourceBound)
+    public Hypergraph<T, A> genHypergraph(Linearization nodes, String sourceNumberOrder, int sourceBound) throws Exception
     {
         Hypergraph<T, A> HG = new Hypergraph<T, A>();
         
@@ -111,9 +111,12 @@ public class HypergraphGenerator<T, A>
                 }
             }
             
-            if(valid) hypergraphCollection.add(newHG);
+            for(Hypergraph existing : hypergraphCollection)
+            {
+                if(newHG.equals(existing)) valid = false;
+            }
             
-            hypergraphCollection.add(newHG);
+            if(valid) hypergraphCollection.add(newHG);
 //            if(count % 100 == 0)
 //            {
 //                System.out.println(count + ": " + newHG);
