@@ -1,4 +1,5 @@
 package questgeneration;
+import java.util.ArrayList;
 import questgeneration.nouns.Noun;
 import questgeneration.verbs.Verb;
 
@@ -45,6 +46,11 @@ public class Action extends QuestData
     public String toString()
     {
         String actionString;
+        if(_verb == null || _noun == null)
+        {
+            actionString = "DUMMY";
+            return actionString;
+        }
         actionString = this.getVerb().getName() + " " + this.getNoun().getType();
         return actionString;
     }
