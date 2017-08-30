@@ -9,11 +9,13 @@ public class HypergraphFilter<T> implements Filter
     public ArrayList<String> _hypergraphs;
     public enum _function {EDIT_DISTANCE, HAMMING, KENDALL_TAU};
     //number of hypergraphs allowed PER LINEARIZATION by number of nodes (0 - 30 nodes)
-    private final double[] upperBounds = {0, Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY, 3,
-                                            5, 1, 350, 200, 150,
-                                            100, 90, 80, 70, 60,
-                                            55, 50, 45, 40, 35,
-                                            30, Double.POSITIVE_INFINITY, 20, 18, 16,      //21 nodes is second from left in this row (sample Skyrim quest length)
+    //21 nodes is second from left fifth row (sample Skyrim quest length)
+    //7 nodes is third from left second row (generic parallelism quest length [holds main quest actions and sub-quests])
+    private final double[] upperBounds = {0, Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY,
+                                            Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY,
+                                            Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY,
+                                            Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY, 40, 35,  
+                                            30, 25, 20, 18, 16,      
                                             14, 12, 10, 8, 6, 4};
     
     public HypergraphFilter(ArrayList<String> hypergraphList, int numNodes)
