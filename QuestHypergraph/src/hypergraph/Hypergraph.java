@@ -2,11 +2,16 @@ package hypergraph;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import questgeneration.QuestData;
 import pebbler.PebblerHyperedge;
 import pebbler.PebblerHypergraph;
 import pebbler.PebblerHypernode;
+import questgeneration.Action;
+import utilities.Constants;
+import digraph.DiGraph;
 
 public class Hypergraph<T, A> extends QuestData
 {
@@ -172,10 +177,298 @@ public class Hypergraph<T, A> extends QuestData
         return new PebblerHypergraph<T, A>(this, pebbledNodes);
     }
     
+    public boolean equals(Hypergraph otherHG) throws Exception
+    {
+        if(this.size() != otherHG.size()) return false;
+        
+        for(int index = 0; index < this.size(); index++)
+        {
+            Hypernode thisNode = this.getNode(index);
+            Hypernode otherNode = otherHG.getNode(index);
+            
+            if(!thisNode.equals(otherNode)) return false;
+        }
+        
+        return true;
+    }
+    
+    public int minDepth()
+    {
+        int sink = -1;
+        
+        for(Hypernode currNode : vertices)
+        {
+            if(currNode.outEdges.isEmpty()) sink = vertices.indexOf(currNode);
+        }
+        
+        return minDepthHelper(sink, 0);
+    }
+    
+    public int minDepthHelper(int currNodeInt, int minDepth)
+    {
+        Hypernode currNode = vertices.get(currNodeInt);
+        
+        minDepth++;
+        
+        ArrayList<Hyperedge> inEdges = currNode.inEdges;
+        
+        if(inEdges.isEmpty()) return minDepth;
+        
+        if(currNode.isComplex())
+        {
+            minDepth -= 1;
+            
+            Hypergraph subHG = (Hypergraph) currNode.data;
+            
+            int tempDepth = subHG.minDepth();
+            
+            minDepth += tempDepth;
+            
+            minDepth -= 2;
+        }
+        
+        int originalDepth = minDepth;
+        
+        for(Hyperedge inEdge : inEdges)
+        {
+            ArrayList<Integer> sources = inEdge.sourceNodes;
+            
+            if(inEdges.indexOf(inEdge) == 0)
+            {
+                if(sources.size() > 1)
+                {
+                    int tempDepth = originalDepth + sources.size();
+                    
+                    for(int source : sources)
+                    {
+                        Hypernode sourceNode = vertices.get(source);
+                        
+                        if(sourceNode.isComplex())
+                        {
+                            minDepth -= 1;
+            
+                            Hypergraph subHG = (Hypergraph) sourceNode.data;
+            
+                            tempDepth += subHG.minDepth();
+            
+                            tempDepth -= 2;
+                        }
+                    }
+                
+                    tempDepth = minDepthHelper(sources.get(0), tempDepth);
+                
+                    minDepth = tempDepth;
+                }
+            
+                else
+                {
+                    int tempDepth = minDepthHelper(sources.get(0), originalDepth);
+            
+                    minDepth = tempDepth;
+                }
+            }
+            else
+            {
+                if(sources.size() > 1)
+                {
+                    int tempDepth = originalDepth + sources.size();
+                    
+                    for(int source : sources)
+                    {
+                        Hypernode sourceNode = vertices.get(source);
+                        
+                        if(sourceNode.isComplex())
+                        {
+                            minDepth -= 1;
+            
+                            Hypergraph subHG = (Hypergraph) sourceNode.data;
+            
+                            tempDepth += subHG.minDepth();
+            
+                            tempDepth -= 2;
+                        }
+                    }
+                
+                    tempDepth = minDepthHelper(sources.get(0), tempDepth);
+                
+                    if(tempDepth < minDepth) minDepth = tempDepth;
+                }
+            
+                else
+                {
+                    int tempDepth = minDepthHelper(sources.get(0), originalDepth);
+            
+                    if(tempDepth < minDepth) minDepth = tempDepth;
+                }
+            }
+        }
+        
+        return minDepth;
+    }
+    
+    public int maxDepth()
+    {
+        int sink = -1;
+        
+        for(Hypernode currNode : vertices)
+        {
+            if(currNode.outEdges.isEmpty()) sink = vertices.indexOf(currNode);
+        }
+        
+        return maxDepthHelper(sink, 0);
+    }
+    
+    public int maxDepthHelper(int currNodeInt, int maxDepth)
+    {
+        Hypernode currNode = vertices.get(currNodeInt);
+        
+        maxDepth++;
+        
+        ArrayList<Hyperedge> inEdges = currNode.inEdges;
+        
+        if(inEdges.isEmpty()) return maxDepth;
+        
+        if(currNode.isComplex())
+        {
+            maxDepth -= 1;
+            
+            Hypergraph subHG = (Hypergraph) currNode.data;
+            
+            int tempDepth = subHG.maxDepth();
+            
+            maxDepth += tempDepth;
+            
+            maxDepth -= 2;
+        }
+        
+        int originalDepth = maxDepth;
+        
+        for(Hyperedge inEdge : inEdges)
+        {
+            ArrayList<Integer> sources = inEdge.sourceNodes;
+            
+            if(sources.size() > 1)
+            {
+                int tempDepth = originalDepth + sources.size();
+                    
+                for(int source : sources)
+                {
+                    Hypernode sourceNode = vertices.get(source);
+                        
+                    if(sourceNode.isComplex())
+                    {
+                        maxDepth -= 1;
+            
+                        Hypergraph subHG = (Hypergraph) sourceNode.data;
+            
+                        tempDepth += subHG.maxDepth();
+            
+                        tempDepth -= 2;
+                    }
+                }
+                
+                tempDepth = maxDepthHelper(sources.get(0), tempDepth);
+                
+                if(tempDepth > maxDepth) maxDepth = tempDepth;
+            }
+            
+            else
+            {
+                int tempDepth = maxDepthHelper(sources.get(0), originalDepth);
+            
+                if(tempDepth > maxDepth) maxDepth = tempDepth;
+            }
+        }
+        
+        return maxDepth;
+    }
+    
+    public int concurrencyCount()
+    {
+        int concurrencyCount = 0;
+        
+        ArrayList<Hyperedge> counted = new ArrayList<Hyperedge>();
+        
+        for(Hypernode currNode : vertices)
+        {
+            ArrayList<Hyperedge> inEdges = currNode.inEdges;
+            for(Hyperedge inEdge : inEdges)
+            {
+                if(!counted.contains(inEdge))
+                {
+                    if(inEdge.sourceNodes.size() > 1)
+                    {
+                        concurrencyCount++;
+                        counted.add(inEdge);
+                    }
+                }
+            }
+            
+            ArrayList<Hyperedge> outEdges = currNode.outEdges;
+            for(Hyperedge outEdge : outEdges)
+            {
+                if(!counted.contains(outEdge))
+                {
+                    if(outEdge.sourceNodes.size() > 1)
+                    {
+                        concurrencyCount++;
+                        counted.add(outEdge);
+                    }
+                }
+            }
+            
+            if(currNode.isComplex())
+            {
+                Hypergraph subHG = (Hypergraph) currNode.data;
+                concurrencyCount += subHG.concurrencyCount();
+            }
+        }
+        
+        return concurrencyCount;
+    }
+    
+    public double concurrencyFactor(double concurrencyCount)
+    {
+        double numActions = 0;
+        
+        for(Hypernode currNode : vertices)
+        {
+            if(currNode.isComplex())
+            {
+                Hypergraph subHG = (Hypergraph) currNode.data;
+                numActions += subHG.size();
+                continue;
+            }
+            
+            numActions++;
+        }
+        
+        return concurrencyCount / numActions;
+    }
+    
+    public int pathComplexity() throws Exception
+    {
+        int pathComplexity = 1;
+        
+        for(Hypernode currNode : vertices)
+        {
+            if(currNode.isComplex())
+            {
+                Hypergraph subHG = (Hypergraph) currNode.data;
+                int methods = subHG.getNode(0).outEdges.size();
+                pathComplexity *= methods;
+            }
+        }
+        
+        return pathComplexity;
+    }
+    
     @Override
     public String toString()
     {
         String graphS = "";
+        
+        int subquestCount = 0;
         
         for(Hypernode<T, A> currNode: vertices)
         {
@@ -183,7 +476,11 @@ public class Hypergraph<T, A> extends QuestData
             else graphS += "[Vertex " + vertices.indexOf(currNode) + "]: ";
             
             if(!currNode.isComplex()) graphS += "(data: " + currNode.data + " / ";
-            else graphS += "(data: SUB-QUEST / ";
+            else
+            {
+                subquestCount++;
+                graphS += "(data: SUB-QUEST " + subquestCount + " / ";
+            }
             
             graphS += "out edges: ";
             if(currNode.outEdges.isEmpty()) graphS += "none ";
@@ -210,6 +507,20 @@ public class Hypergraph<T, A> extends QuestData
             }
             
             graphS += ")";
+        }
+        
+        if(subquestCount > 0)
+        {
+            subquestCount = 1;
+            for(Hypernode<T, A> currNode: vertices)
+            {
+                if(currNode.isComplex())
+                {
+                    if(subquestCount == 1) graphS += "\n" + "Sub-Quests: ";
+                    graphS += "\n" + "Sub-Quest " + subquestCount + ": " + currNode.data;
+                    subquestCount++;
+                }
+            }
         }
         
         return graphS;

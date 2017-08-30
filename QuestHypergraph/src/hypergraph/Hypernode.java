@@ -60,4 +60,29 @@ public class Hypernode<T, A>
         if(data.getClass().equals(HG.getClass())) return true;
         return false;
     }
+    
+    public boolean equals(Hypernode otherNode)
+    {
+        if(!data.equals(otherNode.data)) return false;
+        
+        if(inEdges.size() != otherNode.inEdges.size() || outEdges.size() != otherNode.outEdges.size()) return false;
+        
+        for(int inIndex = 0; inIndex < inEdges.size(); inIndex++)
+        {
+            Hyperedge<A> thisIn = inEdges.get(inIndex);
+            Hyperedge<A> otherIn = inEdges.get(inIndex);
+            
+            if(!thisIn.equals(otherIn)) return false;
+        }
+        
+        for(int outIndex = 0; outIndex < outEdges.size(); outIndex++)
+        {
+            Hyperedge<A> thisOut = outEdges.get(outIndex);
+            Hyperedge<A> otherOut = outEdges.get(outIndex);
+            
+            if(!thisOut.equals(otherOut)) return false;
+        }
+        
+        return true;
+    }
 }
