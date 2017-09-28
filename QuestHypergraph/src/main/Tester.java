@@ -52,40 +52,102 @@ public class Tester
 //        System.out.println(HGgen.getQuestHypergraph());
         
         //
-        //TEST PARALLEL METHOD PATH GENERATION
+        //TEST PARALLEL METHOD PATH GENERATION WITH CHARACTERISTICS
+        //
+//        long startTime = System.nanoTime();
+//        
+//        Hypergraph HG = new Hypergraph();
+//        QuestHypergraphGenerator HGgen = new QuestHypergraphGenerator(HG);
+//        
+//        ArrayList<Hypergraph> hypergraphList = HGgen.genParallelismQuestHypergraphs("ParallelVerbNoun[MAIN].xml", "ParallelVerbNoun[SUB].xml");
+//        
+//        int HGCount = 1;
+//        System.out.println("Quest Hypergraphs Generated: " + hypergraphList.size());
+//        for(Hypergraph currHG : hypergraphList)
+//        {
+////            System.out.println(HGCount + ". " + currHG);
+////            System.out.println();
+//            
+//            int concurrency = currHG.concurrencyCount();
+//            DecimalFormat f = new DecimalFormat("##.00");
+//            System.out.print("\"" + HGCount + "\",");
+//            int min = currHG.minDepth();
+//            System.out.print("\"" + min + "\",");
+//            System.out.print("\"" + currHG.maxDepth() + "\",");
+//            System.out.print("\"" + concurrency + "\",");
+//            System.out.print("\"" + f.format(currHG.concurrencyFactor(concurrency)) + "\",");
+//            System.out.println("\"" + currHG.pathComplexity() + "\"");
+//            HGCount++;
+//        }
+//        
+//        long endTime = System.nanoTime();
+//
+//	  long elapsedTime = endTime - startTime;
+//
+//        System.out.println("Elapsed time in milliseconds: " + elapsedTime / 1000000);
+        
+        //
+        //TEST SMALL QUEST GENERATION WITH CHARACTERISTICS (NO PARALLELISM)
+        //
+//        long startTime = System.nanoTime();
+//        
+//        Hypergraph HG = new Hypergraph();
+//        QuestHypergraphGenerator HGgen = new QuestHypergraphGenerator(HG);
+//        
+//        ArrayList<Hypergraph> hypergraphList = HGgen.genManyQuestHypergraphs("VerbNounList.xml", 14);
+//        
+////        int HGCount = 1;
+//        System.out.println("Quest Hypergraphs Generated: " + hypergraphList.size());
+//        int actions = hypergraphList.get(0).size();
+//        for(Hypergraph currHG : hypergraphList)
+//        {
+////            System.out.println(HGCount + ". " + currHG);
+////            System.out.println();
+//            
+//            int concurrency = currHG.concurrencyCount();
+//            DecimalFormat f = new DecimalFormat("##.00");
+//            System.out.print("\"" + actions + "\",");
+//            int min = currHG.minDepth();
+//            System.out.print("\"" + min + "\",");
+//            System.out.print("\"" + currHG.maxDepth() + "\",");
+//            System.out.print("\"" + concurrency + "\",");
+//            System.out.print("\"" + f.format(currHG.concurrencyFactor(concurrency)) + "\",");
+//            System.out.println("\"" + currHG.pathComplexity() + "\"");
+//            if(min < actions) System.out.println(currHG);
+////            HGCount++;
+//        }
+//        
+//        long endTime = System.nanoTime();
+//
+//	  long elapsedTime = endTime - startTime;
+//
+//        System.out.println("Elapsed time in milliseconds: " + elapsedTime / 1000000);
+        
+        //
+        //A NIGHT TO REMEMBER (SKYRIM QUEST) RECREATION
         //
         long startTime = System.nanoTime();
         
         Hypergraph HG = new Hypergraph();
         QuestHypergraphGenerator HGgen = new QuestHypergraphGenerator(HG);
         
-        ArrayList<Hypergraph> hypergraphList = HGgen.genParallelismQuestHypergraphs("ParallelVerbNoun[MAIN].xml", "ParallelVerbNoun[SUB].xml");
+        ArrayList<Hypergraph> hypergraphList = HGgen.genParallelismQuestHypergraphs("A Night to Remember[MAIN].xml", "A Night to Remember[SUB].xml");
         
         int HGCount = 1;
         System.out.println("Quest Hypergraphs Generated: " + hypergraphList.size());
+        System.out.println();
         for(Hypergraph currHG : hypergraphList)
         {
-//            System.out.println(HGCount + ". " + currHG);
-//            System.out.println();
+            System.out.println(HGCount + "." + currHG);
+            System.out.println();
             
-            int concurrency = currHG.concurrencyCount();
-            DecimalFormat f = new DecimalFormat("##.00");
-            System.out.print("\"" + HGCount + "\",");
-            int min = currHG.minDepth();
-            if(min < 7) System.out.print("\"" + 7 + "\",");
-            else System.out.print("\"" + min + "\",");
-            System.out.print("\"" + currHG.maxDepth() + "\",");
-            System.out.print("\"" + concurrency + "\",");
-            System.out.print("\"" + f.format(currHG.concurrencyFactor(concurrency)) + "\",");
-            System.out.println("\"" + currHG.pathComplexity() + "\"");
             HGCount++;
         }
         
         long endTime = System.nanoTime();
 
 	long elapsedTime = endTime - startTime;
-
-        System.out.println("Elapsed time in milliseconds: " + elapsedTime / 1000000);
+        System.out.println("Elapsed time in milliseconds: " + elapsedTime / 1000000);        
         
         //
         //TEST DEPTH METHODS
@@ -424,7 +486,7 @@ public class Tester
 //        System.out.println("Width: " + DG.GetWidth());
         
         //
-        //TEST CREATE SKYRIM QUEST
+        //TEST CREATE SKYRIM QUEST (FORBIDDEN LEGEND)
         //
 //        ConstraintParser parser = new ConstraintParser("ForbiddenLegend.xml");
 //        parser.parse();
