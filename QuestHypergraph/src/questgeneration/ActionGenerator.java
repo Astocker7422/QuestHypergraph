@@ -83,12 +83,27 @@ public class ActionGenerator
         return newActionSet;
     }
 
+//    public ArrayList<Action> generateUniqueActionSet(int actionSetSize)
+//    {
+//        ArrayList<Action> newActionSet = new ArrayList<Action>(actionSetSize);
+//        for (int counter = 0; counter < actionSetSize; counter++)
+//        {
+//            newActionSet.add(generateUniqueAction());
+//        }
+//        return newActionSet;
+//    }
+    
+    //for small action sets
+    //prevents infinite random generation of non unique actions
     public ArrayList<Action> generateUniqueActionSet(int actionSetSize)
     {
         ArrayList<Action> newActionSet = new ArrayList<Action>(actionSetSize);
+        
+        ArrayList<Action> allActions = generateAllActions();
+        
         for (int counter = 0; counter < actionSetSize; counter++)
         {
-            newActionSet.add(generateUniqueAction());
+            newActionSet.add(allActions.get(counter));
         }
         return newActionSet;
     }

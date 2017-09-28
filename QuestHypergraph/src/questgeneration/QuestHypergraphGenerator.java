@@ -118,6 +118,33 @@ public class QuestHypergraphGenerator<T, A>
         return topologicalHypergraphList;
     }
     
+    //gen many quest hypergraphs from a text file with input desired number of actions
+    public ArrayList<Hypergraph> genManyQuestHypergraphs(String fileName, int numActions) throws Exception
+    {
+        ConstraintParser parser = new ConstraintParser(fileName);
+        parser.parse();
+        
+        ActionGenerator actionGen = new ActionGenerator(parser);
+        
+        ArrayList<Action> actionSet = actionGen.generateUniqueActionSet(numActions);
+        
+        DiGraph DG = new DiGraph();
+        
+        for(Action act : actionSet)
+        {
+            DG.addNode(act);
+        }
+        
+        addSequencedEdges(DG);
+        
+        ArrayList<Linearization> orders = DG.filteredTopologicalSort();
+	
+	HypergraphGenerator hypergraphGen = new HypergraphGenerator();
+        ArrayList<Hypergraph> topologicalHypergraphList = hypergraphGen.genFilteredHypergraphs(orders);
+        
+        return topologicalHypergraphList;
+    }
+    
     //gen many quest hypergraphs with parallel sub-hypergraphs from text files
     public ArrayList<Hypergraph> genParallelismQuestHypergraphs(String quest, String subquests) throws Exception
     {
@@ -313,14 +340,13 @@ public class QuestHypergraphGenerator<T, A>
             HypergraphGenerator hypergraphGen = new HypergraphGenerator();
             hypergraphList.addAll(hypergraphGen.genFilteredHypergraphs(orders));
             
+            while(hypergraphList.size() > 6)
+            {
+                hypergraphList.remove(hypergraphList.size() - 1);
+            }
+            
             processedCount += 1;
             System.out.println("Processed Combinations: " + processedCount);
-//            if((processedCount % 1010) == 0)
-//            {
-//                Runtime ru = Runtime.getRuntime();
-//                ru.gc();
-//            }
-            
             questCount = hypergraphList.size();
             System.out.println("Quests Generated: " + questCount);
         }
