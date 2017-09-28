@@ -31,6 +31,20 @@ public class Hyperedge<A>
 //    {
 //        // TODO Auto-generated constructor stub
 //    }
+    
+    public boolean contains(Hyperedge otherEdge)
+    {
+        if(this.sourceNodes.size() < otherEdge.sourceNodes.size()) return false;
+        
+        ArrayList<Integer> otherSources = otherEdge.sourceNodes;
+        
+        for(int source : otherSources)
+        {
+            if(!this.sourceNodes.contains(source)) return false;
+        }
+        
+        return true;
+    }
 
     @Override
     public boolean equals(Object o)

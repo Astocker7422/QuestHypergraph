@@ -137,7 +137,7 @@ public class Hypergraph<T, A> extends QuestData
         if(vertices.get(vertices.size() - 1).inEdges.isEmpty()) return true;
         for(int index = 1; index < (vertices.size() - 1); index++)
         {
-            if(vertices.get(index).inEdges.isEmpty() || vertices.get(index).outEdges.isEmpty()) return true;
+            if(vertices.get(index).inEdges.isEmpty() && vertices.get(index).outEdges.isEmpty()) return true;
         }
         return false;
     }
@@ -237,8 +237,9 @@ public class Hypergraph<T, A> extends QuestData
             {
                 if(sources.size() > 1)
                 {
-                    int tempDepth = originalDepth + sources.size();
+                    originalDepth += sources.size();
                     
+                    int sourceNum = 1;
                     for(int source : sources)
                     {
                         Hypernode sourceNode = vertices.get(source);
@@ -249,15 +250,50 @@ public class Hypergraph<T, A> extends QuestData
             
                             Hypergraph subHG = (Hypergraph) sourceNode.data;
             
-                            tempDepth += subHG.minDepth();
+                            originalDepth += subHG.minDepth();
             
-                            tempDepth -= 2;
+                            originalDepth -= 2;
                         }
+                        else
+                        {
+                            int sourceDepth = originalDepth - 1;
+                            
+                            sourceDepth = minDepthHelper(sources.get(sourceNum - 1), sourceDepth);
+                            
+                            boolean contains = false;
+                                
+                            ArrayList<Hyperedge> sourceIn = sourceNode.inEdges;
+                                
+                            for(Hyperedge currIn : sourceIn)
+                            {
+                                for(int otherSource : sources)
+                                {
+                                    if(otherSource == source) continue;
+                                        
+                                    Hypernode other = vertices.get(otherSource);
+                                        
+                                    ArrayList<Hyperedge> otherIn = other.inEdges;
+                                        
+                                    for(Hyperedge otherCurrIn : otherIn)
+                                    {
+                                        contains = otherCurrIn.contains(currIn);
+                                        if(contains) break;
+                                    }
+                                        
+                                    if(contains) break;
+                                }
+                                    
+                                if(contains) break;
+                            }
+                
+                            if(sourceNum == 1 || !contains) minDepth = sourceDepth;
+                            else
+                            {
+                                if(sourceDepth < minDepth && !contains) minDepth = sourceDepth;
+                            }
+                        }
+                        sourceNum++;
                     }
-                
-                    tempDepth = minDepthHelper(sources.get(0), tempDepth);
-                
-                    minDepth = tempDepth;
                 }
             
                 else
@@ -349,8 +385,9 @@ public class Hypergraph<T, A> extends QuestData
             
             if(sources.size() > 1)
             {
-                int tempDepth = originalDepth + sources.size();
+                originalDepth += sources.size();
                     
+                int sourceNum = 1;
                 for(int source : sources)
                 {
                     Hypernode sourceNode = vertices.get(source);
@@ -361,15 +398,24 @@ public class Hypergraph<T, A> extends QuestData
             
                         Hypergraph subHG = (Hypergraph) sourceNode.data;
             
-                        tempDepth += subHG.maxDepth();
+                        originalDepth += subHG.maxDepth();
             
-                        tempDepth -= 2;
+                        originalDepth -= 2;
                     }
+                    else
+                    {
+                        int sourceDepth = originalDepth - 1;
+                            
+                        sourceDepth = maxDepthHelper(sources.get(sourceNum - 1), sourceDepth);
+                
+                        if(sourceNum == 1) maxDepth = sourceDepth;
+                        else
+                        {
+                            if(sourceDepth > maxDepth) maxDepth = sourceDepth;
+                        }
+                    }
+                    sourceNum++;
                 }
-                
-                tempDepth = maxDepthHelper(sources.get(0), tempDepth);
-                
-                if(tempDepth > maxDepth) maxDepth = tempDepth;
             }
             
             else
