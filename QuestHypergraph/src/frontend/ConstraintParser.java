@@ -106,12 +106,12 @@ public class ConstraintParser
                 Verb_List.add(sVerb);
                 if(Options.DEBUG)
                 {
-                    System.out.println();
                     System.out.println("    " + sVerb.getName());
-                    System.out.print("        Methods: " + sVerb.methods);
+                    System.out.println("        Methods: " + sVerb.methods);
                 }
             }
         }
+        if(StaticVerb_List.isEmpty() || Options.DEBUG) System.out.println("    None");
     }
     
     public void parseLivingVerbs()
@@ -146,6 +146,7 @@ public class ConstraintParser
                 }
             }
         }
+        if(LivingVerb_List.isEmpty() || Options.DEBUG) System.out.println("    None");
     }
     
     public void parsePredecessorLists()
@@ -194,6 +195,7 @@ public class ConstraintParser
             System.out.println("Tools:");
         }
         
+        int toolCount = 0;
         for (int temp = 0; temp < Tool_List.getLength(); temp++) 
         {
             Node ToolNode = Tool_List.item(temp);
@@ -215,6 +217,7 @@ public class ConstraintParser
                 }
                 Tool currTool = new Tool(theType, negatedVerbs);
                 Noun_List.add(currTool);
+                toolCount++;
                 
                 if(Options.DEBUG)
                 {
@@ -228,6 +231,7 @@ public class ConstraintParser
                 }
             }
         }
+        if(toolCount == 0 || Options.DEBUG) System.out.println("    None");
     }
     
     public void parseIngredients()
@@ -240,6 +244,7 @@ public class ConstraintParser
             System.out.println("Ingredients:");
         }
         
+        int ingredientCount = 0;
         for (int temp = 0; temp < Ingredient_List.getLength(); temp++) 
         {
             Node IngredientNode = Ingredient_List.item(temp);
@@ -261,6 +266,7 @@ public class ConstraintParser
                 }
                 Ingredient currIngredient = new Ingredient(theType, negatedVerbs);
                 Noun_List.add(currIngredient);
+                ingredientCount++;
                 
                 if(Options.DEBUG)
                 {
@@ -274,6 +280,7 @@ public class ConstraintParser
                 }
             }
         }
+        if(ingredientCount == 0 || Options.DEBUG) System.out.println("    None");
     }
     
     public void parseRelics()
@@ -286,6 +293,7 @@ public class ConstraintParser
             System.out.println("Relics:");
         }
         
+        int relicCount = 0;
         for (int temp = 0; temp < Relic_List.getLength(); temp++) 
         {
             Node RelicNode = Relic_List.item(temp);
@@ -307,6 +315,7 @@ public class ConstraintParser
                 }
                 Relic currRelic = new Relic(theType, negatedVerbs);
                 Noun_List.add(currRelic);
+                relicCount++;
                 
                 if(Options.DEBUG)
                 {
@@ -320,6 +329,7 @@ public class ConstraintParser
                 }
             }
         }
+        if(relicCount == 0 || Options.DEBUG) System.out.println("    None");
     }
     
     public void parseBooks()
@@ -332,6 +342,7 @@ public class ConstraintParser
             System.out.println("Books:");
         }
         
+        int bookCount = 0;
         for (int temp = 0; temp < Book_List.getLength(); temp++) 
         {
             Node BookNode = Book_List.item(temp);
@@ -353,6 +364,7 @@ public class ConstraintParser
                 }
                 Book currBook = new Book(theType, negatedVerbs);
                 Noun_List.add(currBook);
+                bookCount++;
                 
                 if(Options.DEBUG)
                 {
@@ -366,6 +378,7 @@ public class ConstraintParser
                 }
             }
         }
+        if(bookCount == 0 || Options.DEBUG) System.out.println("    None");
     }
     
     public void parseKeys()
@@ -378,6 +391,7 @@ public class ConstraintParser
             System.out.println("Keys:");
         }
         
+        int keyCount = 0;
         for (int temp = 0; temp < Key_List.getLength(); temp++) 
         {
             Node KeyNode = Key_List.item(temp);
@@ -399,6 +413,7 @@ public class ConstraintParser
                 }
                 Key currKey = new Key(theType, negatedVerbs);
                 Noun_List.add(currKey);
+                keyCount++;
                 
                 if(Options.DEBUG)
                 {
@@ -412,6 +427,7 @@ public class ConstraintParser
                 }
             }
         }
+        if(keyCount == 0 || Options.DEBUG) System.out.println("    None");
     }
     
     public void parsePlaces()
@@ -424,6 +440,7 @@ public class ConstraintParser
             System.out.println("Places:");
         }
         
+        int placeCount = 0;
         for (int temp = 0; temp < Place_List.getLength(); temp++) 
         {
             Node PlaceNode = Place_List.item(temp);
@@ -445,6 +462,7 @@ public class ConstraintParser
                 }
                 Place currPlace = new Place(theType, negatedVerbs);
                 Noun_List.add(currPlace);
+                placeCount++;
                 
                 if(Options.DEBUG)
                 {
@@ -458,6 +476,7 @@ public class ConstraintParser
                 }
             }
         }
+        if(placeCount == 0 || Options.DEBUG) System.out.println("    None");
     }
     
     public void parseAllies()
@@ -470,6 +489,7 @@ public class ConstraintParser
             System.out.println("Allies:");
         }
         
+        int allyCount = 0;
         for (int temp = 0; temp < Ally_List.getLength(); temp++) 
         {
             Node AllyNode = Ally_List.item(temp);
@@ -491,6 +511,7 @@ public class ConstraintParser
                 }
                 Ally currAlly = new Ally(theType, negatedVerbs);
                 Noun_List.add(currAlly);
+                allyCount++;
                 
                 if(Options.DEBUG)
                 {
@@ -504,6 +525,7 @@ public class ConstraintParser
                 }
             }
         }
+        if(allyCount == 0 || Options.DEBUG) System.out.println("    None");
     }
     
     public void parseEnemies()
@@ -516,6 +538,7 @@ public class ConstraintParser
             System.out.println("Enemys:");
         }
         
+        int enemyCount = 0;
         for (int temp = 0; temp < Enemy_List.getLength(); temp++) 
         {
             Node EnemyNode = Enemy_List.item(temp);
@@ -537,6 +560,7 @@ public class ConstraintParser
                 }
                 Enemy currEnemy = new Enemy(theType, negatedVerbs);
                 Noun_List.add(currEnemy);
+                enemyCount++;
                 
                 if(Options.DEBUG)
                 {
@@ -550,5 +574,6 @@ public class ConstraintParser
                 }
             }
         }
+        if(enemyCount == 0 || Options.DEBUG) System.out.println("    None");
     }
 }
